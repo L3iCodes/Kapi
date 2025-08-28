@@ -156,7 +156,7 @@ export const verify_token = async (req, res) => {
 
 
 // Logout function
-export const logout = async (req, res) => {
+export const logout = async (_req, res) => {
     res.clearCookie("jwt", {
         httpOnly: true,
         secure: true,

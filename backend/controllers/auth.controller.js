@@ -115,16 +115,18 @@ export const refresh_auth = (req, res) => {
 
     // Verify refresh token
     jwt.verify(refresh_token, SECRET, (err,decoded) => {
-        if (err) return res.status(401).json({success:false, message: 'Invalid refresh token found'});
+        if (err) return res.status(401).json({success:false, message: 'Invalid refresh token'});
 
+        const refresh_user = {user_id: decoded.user_id, name: decoded.name, email: decoded.email, role: decoded.role}
+        
         // Generate new access token
         const access_token = jwt.sign(
-            {user_id: decoded.user_id, name: decoded.name, email: decoded.email, role: decoded.role},
+            refresh_user,
             SECRET,
             {expiresIn: '15m'}
         );
 
-        return res.json({ access_token });
+        return res.json({ access_token, user:refresh_user });
     });
 }
 
@@ -138,11 +140,11 @@ export const authenticateJWT = (req, res, next) => {
 
     const token = authHeader.split(" ")[1] //Bearer <token>
     jwt.verify(token, process.env.SECRET, (err, user) => {
-        if (err) res.status(401).json({success:false, message: 'Invalid token'});
-
-        // Continue and asign user to req.user
-        req.user = user;
-        next();
+        if (!err){
+            // Continue and asign user data to req.user
+            req.user = user;
+            next();
+        };        
     })
 }
 

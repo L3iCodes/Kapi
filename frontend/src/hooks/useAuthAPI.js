@@ -1,5 +1,5 @@
-import { useMutation } from '@tanstack/react-query'
-import { login } from '../api/auth.api.js'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { login, refresh, logout } from '../api/auth.api.js'
 
 export default function useAuthAPI(){
     
@@ -7,5 +7,13 @@ export default function useAuthAPI(){
         mutationFn: ({email, password}) => login(email, password),
     })
 
-    return({loginMutation})
+    const refreshMutation = useMutation({
+        mutationFn: refresh
+    })
+
+    const logoutMutation = useMutation({
+        mutationFn: logout
+    })
+
+    return({loginMutation, refreshMutation, logoutMutation})
 }

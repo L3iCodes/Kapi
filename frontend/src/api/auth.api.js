@@ -19,3 +19,31 @@ export async function login(email, password){
         throw new Error(error.response.data.message)
     }
 }
+
+export async function refresh(){
+    try{
+        const res = await axios.get(
+            `${BACKEND_URL}/api/auth/refresh_auth`,
+            {
+                withCredentials: true
+            }
+        );
+        return res.data;
+
+    }catch(error){
+        throw new Error(error.response.data.message)
+    }
+}
+
+export async function logout(){
+    try{
+        const res = await axios.post(
+            `${BACKEND_URL}/api/auth/logout`,
+        );
+        console.log(res)
+        return res.data;
+
+    }catch(error){
+        throw new Error(error.response.data.message)
+    }
+}

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import useAuthAPI from "../hooks/useAuthAPI";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,20 @@ const AuthContext = createContext();
 export function AuthProvider({children}){
     const navigate = useNavigate()
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState('')
-    const { loginMutation } = useAuthAPI()
+    const [token, setToken] = useState(localStorage.getItem('token'))
+    const { loginMutation, refreshMutation, logoutMutation } = useAuthAPI()
+
+    useEffect(() => {
+        if (!token) return
+
+        refreshMutation.mutate(undefined, {
+            onSuccess: (data) => {
+                console.log(data)
+                setToken(data.access_token);
+                setUser(data.user)
+            },
+        })
+    }, [token])
 
     const handleLogin = (credentials) => {
         loginMutation.mutate(credentials, {
@@ -23,6 +35,7 @@ export function AuthProvider({children}){
     };
 
     const handleLogout = () => {
+        logoutMutation.mutate()
         localStorage.removeItem('token');
         setUser(null);
         setToken('')

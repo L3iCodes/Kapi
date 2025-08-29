@@ -1,15 +1,31 @@
 import { Icon } from '@iconify/react'
 import mug from '../assets/CoffeeMug.png'
 import { useNavigate } from 'react-router-dom'
+import useAuthAPI from '../hooks/useAuthAPI.js'
+import { useAuth } from '../context/AuthContext.jsx'
 
 export default function Login(){
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    // const { loginMutation } = useAuthAPI();
+    // const { mutate, isPending, isError, error, data } = loginMutation;
+    const { handleLogin, loginMutation, user } = useAuth()
+
+    const onLogin = (e) => {
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        
+        handleLogin({
+            email:formData.get('email'), 
+            password:formData.get('password')
+        })
+    } 
+
 
     return(
         <div className="flex justify-center items-center h-full  sm:mt-3">
             <div className='flex flex-col w-[90%] min-h-[300px] sm:flex-row gap-5 bg-secondary rounded-[5px] border-accent border-1 shadow-sm shadow-black relative'>
                 {/* gradient overlay */}
-                <div class="absolute inset-0 bg-gradient"/>
+                <div className="absolute inset-0 bg-gradient"/>
                 
                 <div className='w-full p-5 z-10'>
                     <div className='flex flex-col'>
@@ -18,12 +34,13 @@ export default function Login(){
                     </div>
                 </div>
                 
-                <form className='flex flex-col gap-5 w-full mt-auto mb-auto p-5 z-10'>
+                <form onSubmit={onLogin} className='flex flex-col gap-5 w-full mt-auto mb-auto p-5 z-10'>
                     <div className='w-full text-[12px]'>
                         <label htmlFor='email'>Email</label>
                         <input 
                             type='text' 
                             name='email' 
+                            required={true}
                             placeholder='Your email' 
                         />
                     </div>
@@ -32,12 +49,17 @@ export default function Login(){
                         <label htmlFor='email'>Password</label>
                         <input 
                             type='password' 
-                            name='email' 
+                            name='password' 
+                            required={true}
                             placeholder='Your password' 
                         />
                     </div>
 
-                    <button className='!w-full mt-5'>Log In</button>
+                    {loginMutation.isError && (
+                        <h6 className='-mt-2 self-end'>{loginMutation.error.message}</h6>
+                    )}
+                    
+                    <button type='submit' className='!w-full mt-2'>{loginMutation.isPending ? 'Logging In...' : 'Login'}</button>
                     <Icon 
                         className='p-2 bg-text rounded-full self-center cursor-pointer hover:bg-secondary active:bg-text'
                         icon="devicon:google" 

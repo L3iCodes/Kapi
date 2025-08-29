@@ -1,14 +1,17 @@
 import { Icon } from '@iconify/react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 export default function Navbar(){
     const navigate = useNavigate()
+    const { user, handleLogout } = useAuth()
 
     return(
         <div className='h-[80px] w-full bg-secondary fixed bottom-0 left-0 border-[0.1px] border-accent rounded-[5px]
                         sm:sticky sm:h-[50px] sm:top-0 sm:left-0'>
             {mobileNavigation()}
-            {desktopNavigation(navigate)}
+            {desktopNavigation(navigate, user, handleLogout)}
+            
         </div>
     )
 }
@@ -49,7 +52,7 @@ function mobileNavigation(){
     )
 };
 
-function desktopNavigation(navigate){
+function desktopNavigation(navigate, user, handleLogout){
     return(
         <div className='hidden p-5 h-full w-full items-center sm:flex'>
             <h3 className='font-bold tracking-widest'>KAPI</h3>
@@ -80,23 +83,32 @@ function desktopNavigation(navigate){
                     height="15" 
                 /> 
 
-                {/* <Icon 
-                    className={'cursor-pointer hover:text-text active:text-subtext'}
-                    icon="mdi:cart-outline" 
-                    width="15" height="15" 
-                /> 
+                {user
+                    ? (
+                    <>
+                        <Icon 
+                        className={'cursor-pointer hover:text-text active:text-subtext'}
+                        icon="mdi:cart-outline" 
+                        width="15" height="15" 
+                        /> 
 
-                <Icon 
-                    className={'cursor-pointer hover:text-text active:text-subtext'}
-                    icon="gg:profile" 
-                    width="15" 
-                    height="15" />  */}
-                
-                <h5 
-                    onClick={() => navigate('/login')}
-                    className='cursor-pointer hover:text-text active:text-subtext'>
-                    Login
-                </h5>
+                        <Icon 
+                            onClick={handleLogout}
+                            className={'cursor-pointer hover:text-text active:text-subtext'}
+                            icon="gg:profile" 
+                            width="15" 
+                            height="15" /> 
+                    </>
+                        
+                    ):(
+                        <h5 
+                            onClick={() => navigate('/login')}
+                            className='cursor-pointer hover:text-text active:text-subtext'>
+                            Login
+                        </h5>
+                    )
+                }
+
             </div>
         </div>
         

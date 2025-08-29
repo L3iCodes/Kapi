@@ -7,7 +7,7 @@ export default function Hero(){
                         bg-secondary items-center'>
 
             {/* gradient overlay */}
-            <div class="absolute inset-0 bg-gradient"/>
+            <div className="absolute inset-0 bg-gradient"/>
             
             <div className='flex flex-col w-[60%] z-10'>
                 <h1 className='font-bold leading-tight'>Your Daily Ritual, <br /> 

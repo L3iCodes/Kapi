@@ -71,8 +71,6 @@ export const login = async (req, res) => {
             email: user[0].email,
             role: user[0].role,
         }
-
-        console.log(user_info)
         
         // Create Access Token
         const access_token = jwt.sign(

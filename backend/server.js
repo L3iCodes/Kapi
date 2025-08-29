@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.routes.js'
 dotenv.config()
 const ORIGIN_CLIENT = process.env.ORIGIN_CLIENT;
 const PORT = process.env.PORT;
+console.log(ORIGIN_CLIENT)
 
 const app = express();
 app.use(express.json());
@@ -18,7 +19,7 @@ app.use(cors({
 
 // Setup Express Server
 app.listen(PORT, () => {
-    console.log('Seever is running at https://localhost:' + PORT)
+    console.log('Server is running at https://localhost:' + PORT)
 });
 
 

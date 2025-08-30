@@ -58,7 +58,7 @@ button{
 }
 
 input{
-    @apply flex items-center bg-primary text-[12px] border-1 border-accent px-2 py-1 rounded-[3px] w-full text-subtext
+    @apply flex items-center bg-secondary text-[12px] px-2 py-1 rounded-[3px] accent-accent  text-subtext
 }
 
 .bg-gradient{
@@ -67,4 +67,8 @@ input{
 
 .bg-gradient-tea{
     @apply bg-gradient-to-b from-[var(--color-tea)]/90 from-[32%] to-[var(--color-endG)] opacity-20
+}
+
+input:focus {
+  outline: none;
 }

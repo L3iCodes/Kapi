@@ -62,7 +62,7 @@ function desktopNavigation(navigate, user, handleLogout){
                     <h5>Home</h5>
                 </li>
 
-                <li onClick={() => navigate('/product')} className='flex flex-col items-center cursor-pointer hover:text-text active:text-secondary'>
+                <li onClick={() => navigate('/products')} className='flex flex-col items-center cursor-pointer hover:text-text active:text-secondary'>
                     <h5>Product</h5>
                 </li>
 

@@ -6,8 +6,6 @@ import { useAuth } from '../context/AuthContext.jsx'
 
 export default function Login(){
     const navigate = useNavigate();
-    // const { loginMutation } = useAuthAPI();
-    // const { mutate, isPending, isError, error, data } = loginMutation;
     const { handleLogin, loginMutation, user } = useAuth()
 
     const onLogin = (e) => {
@@ -22,7 +20,7 @@ export default function Login(){
 
 
     return(
-        <div className="flex justify-center items-center h-full  sm:mt-3">
+        <div className="flex justify-center items-center inset-0 absolute">
             <div className='flex flex-col w-[90%] min-h-[300px] sm:flex-row gap-5 bg-secondary rounded-[5px] border-accent border-1 shadow-sm shadow-black relative'>
                 {/* gradient overlay */}
                 <div className="absolute inset-0 bg-gradient"/>

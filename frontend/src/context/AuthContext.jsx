@@ -17,7 +17,6 @@ export function AuthProvider({children}){
 
         refreshMutation.mutate(undefined, {
             onSuccess: (data) => {
-                console.log(data)
                 setToken(data.access_token);
                 setUser(data.user)
             },

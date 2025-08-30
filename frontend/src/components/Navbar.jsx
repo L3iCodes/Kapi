@@ -7,7 +7,7 @@ export default function Navbar(){
     const { user, handleLogout } = useAuth()
 
     return(
-        <div className='h-[80px] w-full bg-secondary fixed bottom-0 left-0 border-[0.1px] border-accent rounded-[5px]
+        <div className='h-[80px] w-full bg-secondary fixed bottom-0 left-0 border-[0.1px] border-accent rounded-[5px] z-100
                         sm:sticky sm:h-[50px] sm:top-0 sm:left-0'>
             {mobileNavigation()}
             {desktopNavigation(navigate, user, handleLogout)}
@@ -58,7 +58,7 @@ function desktopNavigation(navigate, user, handleLogout){
             <h3 className='font-bold tracking-widest'>KAPI</h3>
 
             <ul className='flex items-center w-full h-full justify-center gap-5 text-subtext font-medium'>
-                <li className='flex flex-col items-center cursor-pointer hover:text-text active:text-secondary'>
+                <li onClick={() => navigate('/')} className='flex flex-col items-center cursor-pointer hover:text-text active:text-secondary'>
                     <h5>Home</h5>
                 </li>
 

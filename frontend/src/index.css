@@ -18,6 +18,7 @@
   --color-subtext: #858585;
   --color-startG: #FC7C7C;
   --color-endG: #E69C52;
+  --color-tea: #7CFC87;
 }
 
 h1 {
@@ -49,7 +50,7 @@ body{
 }
 
 .pageWrapper{
-    @apply p-5 pb-20 md:pb-0 w-[100dvw] max-w-[760px] h-[calc(100dvh-5.50rem)]  relative
+    @apply flex flex-col gap-10 p-5 pb-30 sm:p-5  min-h-[100dvh] w-[100dvw] max-w-[760px] relative 
 }
 
 button{
@@ -62,4 +63,8 @@ input{
 
 .bg-gradient{
     @apply bg-gradient-to-b from-[var(--color-startG)]/90 from-[32%] to-[var(--color-endG)] opacity-20
+}
+
+.bg-gradient-tea{
+    @apply bg-gradient-to-b from-[var(--color-tea)]/90 from-[32%] to-[var(--color-endG)] opacity-20
 }

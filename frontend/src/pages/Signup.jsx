@@ -26,6 +26,7 @@ export default function Signup(){
                                 type='text' 
                                 name='first_name' 
                                 placeholder='Jane' 
+                                className='w-full'
                             />
                         </div>
                         
@@ -35,6 +36,7 @@ export default function Signup(){
                                 type='text' 
                                 name='last_name' 
                                 placeholder='Doe' 
+                                className='w-full'
                             />
                         </div>
                     
@@ -46,6 +48,7 @@ export default function Signup(){
                             type='password' 
                             name='email' 
                             placeholder='janedoe@gmail.com' 
+                            className='w-full'
                         />
                     </div>
 
@@ -55,6 +58,7 @@ export default function Signup(){
                             type='password' 
                             name='email' 
                             placeholder='Your password' 
+                            className='w-full'
                         />
                     </div>
 

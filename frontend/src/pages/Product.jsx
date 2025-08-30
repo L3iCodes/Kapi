@@ -1,9 +1,12 @@
+import { useState } from "react";
 import Filter from "../components/Filter";
 import ProductCard from "../components/ProductCard";
 import Search from "../components/Search";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function Product(){
     const productList = Array(20).fill(<ProductCard className={`!border-0`}/>)
+    const [isFilterOpen, setIsFilterOpen] = useState(false)
 
     return(
         <div className="flex flex-col gap-3 ">
@@ -14,15 +17,27 @@ export default function Product(){
             
             <div className="flex gap-3 relative">
                 {/* Filter */}
-                <Filter className={`!sticky top-15 self-start`}/>
+                <Filter className={`hidden sm:flex !sticky top-15 self-start`}/>
 
-                {/* Order Filter */}
+                {/* Filter, Search, and order */}
                 <div className="flex flex-col gap-3 w-full">
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center justify-center">
+                        
+                        {/* Filter for mobile */}
+                        <div 
+                            onClick={() => setIsFilterOpen(s => !s)}
+                            className={`sm:hidden flex items-center h-full bg-secondary gap-2 px-2 rounded-[5px] cursor-pointer border-1
+                                ${isFilterOpen ? 'text-text border-subtext' : 'text-subtext border-transparent'} hover:bg-accent/20 active:bg-secondary cursor-pointer`}
+                            >
+                                <Icon icon="uiw:filter" width="15" height="15"/>
+                                <h5>Filter</h5>
+                                {isFilterOpen && (<Filter className={`absolute bg-secondary top-11 left-0 z-100 drop-shadow-2xl shadow-2xl shadow-black`}/>)}
+                        </div>
+
                         <Search />
                         <select 
                             ame="order" 
-                            className="bg-secondary px-4 text-[12px] text-subtext rounded-[5px] cursor-pointer
+                            className="bg-secondary px-4 text-[12px] text-subtext rounded-[5px] cursor-pointer h-full w-[40%]
                                         border border-transparent hover:border-subtext"
                             >
                                 <option value="name">Name</option>

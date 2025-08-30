@@ -1,6 +1,9 @@
 export default function Filter({ className }){
     return(
-        <div className={`${className} hidden sm:flex flex-col gap-5 p-2 border-1 border-accent rounded-[5px] w-[220px] h-fit`}>
+        <div 
+            onClick={(e) => e.stopPropagation()}
+            className={`${className} flex flex-col gap-5 p-2 border-1 border-subtext rounded-[5px] w-[220px] h-fit`}>
+    
             <h4 className="font-bold">Filters</h4>
 
             {/* Price Filter */}

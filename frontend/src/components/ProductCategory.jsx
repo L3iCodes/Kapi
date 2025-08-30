@@ -54,8 +54,8 @@ export default function ProductCategory(){
             </div>
             
         </div>
-    )
-}
+    );
+};
 
 function CategoryCard({name, description, className, isTea = false, onClick, children}){
     return(
@@ -72,5 +72,5 @@ function CategoryCard({name, description, className, isTea = false, onClick, chi
                 {children}
             </div>
         </div>
-    )
-}
+    );
+};

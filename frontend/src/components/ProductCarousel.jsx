@@ -13,5 +13,5 @@ export default function ProductCarousel(){
                 <ProductCard />
             </div>   
         </div>
-    )
-}
+    );
+};

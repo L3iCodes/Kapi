@@ -3,8 +3,7 @@ import { useLocation } from "react-router-dom";
 export default function Footer(){
     const location = useLocation();
     const pathName = location.pathname;
-    console.log(pathName)
-    
+
     return(
         pathName != '/login' && pathName != '/signup' && (
             <footer className={`hidden sm:flex w-full gap-3 items-center justify-between h-[115px] p-5 bg-secondary border-1 border-accent rounded-[5px]`}>

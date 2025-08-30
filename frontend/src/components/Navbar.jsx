@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function Navbar(){
-    const navigate = useNavigate()
-    const { user, handleLogout } = useAuth()
+    const navigate = useNavigate();
+    const { user, handleLogout } = useAuth();
 
     return(
         <div className='h-[80px] w-full bg-secondary fixed bottom-0 left-0 border-[0.1px] border-accent rounded-[5px] z-100
@@ -13,8 +13,8 @@ export default function Navbar(){
             {desktopNavigation(navigate, user, handleLogout)}
             
         </div>
-    )
-}
+    );
+};
 
 function mobileNavigation(){
     return(
@@ -49,7 +49,7 @@ function mobileNavigation(){
                 <h5>Account</h5>
             </li>
         </ul>
-    )
+    );
 };
 
 function desktopNavigation(navigate, user, handleLogout){
@@ -62,7 +62,7 @@ function desktopNavigation(navigate, user, handleLogout){
                     <h5>Home</h5>
                 </li>
 
-                <li className='flex flex-col items-center cursor-pointer hover:text-text active:text-secondary'>
+                <li onClick={() => navigate('/product')} className='flex flex-col items-center cursor-pointer hover:text-text active:text-secondary'>
                     <h5>Product</h5>
                 </li>
 
@@ -108,9 +108,7 @@ function desktopNavigation(navigate, user, handleLogout){
                         </h5>
                     )
                 }
-
             </div>
-        </div>
-        
-    )
-}
+        </div> 
+    );
+};

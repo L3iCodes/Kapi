@@ -23,5 +23,5 @@ export default function ProductCard({id, name, description, price, img_src}){
                     <h3 className='text-accent font-bold'>$150.00</h3>
                 </div>
         </div>
-    )
-}
+    );
+};

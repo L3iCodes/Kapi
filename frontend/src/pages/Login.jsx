@@ -1,22 +1,21 @@
 import { Icon } from '@iconify/react'
 import mug from '../assets/CoffeeMug.png'
 import { useNavigate } from 'react-router-dom'
-import useAuthAPI from '../hooks/useAuthAPI.js'
 import { useAuth } from '../context/AuthContext.jsx'
 
 export default function Login(){
     const navigate = useNavigate();
-    const { handleLogin, loginMutation, user } = useAuth()
+    const { handleLogin, loginMutation, user } = useAuth();
 
     const onLogin = (e) => {
-        e.preventDefault()
-        const formData = new FormData(e.target)
+        e.preventDefault();
+        const formData = new FormData(e.target);
         
         handleLogin({
             email:formData.get('email'), 
             password:formData.get('password')
-        })
-    } 
+        });
+    } ;
 
 
     return(
@@ -78,5 +77,5 @@ export default function Login(){
                                           sm:top-auto sm:right-auto sm:-bottom-30 sm:-left-30 sm:h-[350px]' />
             </div>
         </div>
-    )
-}
+    );
+};

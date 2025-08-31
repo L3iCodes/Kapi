@@ -11,17 +11,17 @@ export default function ProductCard({id, name, description, price, img_src, clas
                 
                 {/* Product Image */}
                 <div className='h-[260px] border-[0.5px] border-accent bg-secondary aspect-[3/4] rounded-[5px]'>
-                    <img className={'h-full w-full object-cover drop-shadow-xl'} src={sampleImage} />
+                    <img className={'h-full w-full object-cover drop-shadow-xl'} src={img_src} />
                 </div>
             
                 {/* Product Information */}
                 <div className='flex flex-col gap-1 px-1'>
                     <div>
-                        <h4 className='font-medium truncate hover:text-accent cursor-pointer'>Ethiopian Yirgacheffe Beans</h4>
-                        <h5 className='text-subtext'>Bright floral aroma, citrusy notes, light roast</h5>
+                        <h4 className='font-medium truncate hover:text-accent cursor-pointer'>{name}</h4>
+                        <h5 className='text-subtext'>{description}</h5>
                     </div>
                     
-                    <h3 className='text-accent font-bold'>$150.00</h3>
+                    <h3 className='text-accent font-bold'>{price}</h3>
                 </div>
         </div>
     );

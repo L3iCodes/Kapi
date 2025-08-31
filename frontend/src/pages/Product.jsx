@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Filter from "../components/Filter";
 import ProductCard from "../components/ProductCard";
 import Search from "../components/Search";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useProduct } from "../context/ProductContext";
 
 export default function Product(){
-    const productList = Array(20).fill(<ProductCard className={`!border-0`}/>)
-    const [isFilterOpen, setIsFilterOpen] = useState(false)
+    const { productList } = useProduct();
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [filteredList, setFilteredList] = useState(productList);
+
+    useEffect(() => {
+        setFilteredList(productList);
+    }, [productList]);
 
     return(
         <div className="flex flex-col gap-3 ">
@@ -48,7 +54,16 @@ export default function Product(){
                     
 
                     <div className="w-full grid grid-cols-2 sm:grid-cols-3 gap-5">
-                        {productList}
+                        {filteredList && filteredList.map(product => (
+                            <ProductCard 
+                                key={product.product_id}
+                                id={product.product_id}
+                                name={product.name}
+                                description={product.description}
+                                price={product.price}
+                                img_src={product.img_url}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

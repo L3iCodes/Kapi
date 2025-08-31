@@ -1,8 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import authRoutes from './routes/auth.routes.js'
 import cookieParser from "cookie-parser";
+import authRoutes from './routes/auth.routes.js'
+import productRoutes from './routes/product.routes.js'
+
 
 dotenv.config()
 const ORIGIN_CLIENT = process.env.ORIGIN_CLIENT;
@@ -27,3 +29,4 @@ app.listen(PORT, () => {
 
 // Authentication Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/product', productRoutes);

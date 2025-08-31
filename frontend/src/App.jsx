@@ -1,5 +1,8 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+
+// Context
 import { AuthProvider } from './context/AuthContext'
+import { ProductProvider } from './context/ProductContext'
 
 // Components
 import Navbar from './components/Navbar'
@@ -17,13 +20,15 @@ function App() {
         <div className='pageWrapper'>
                 <Router>
                     <AuthProvider>
-                    <Navbar />
-                    <Routes>
-                        <Route path='/' element={<Home />} />
-                        <Route path='/login' element={<Login />} />
-                        <Route path='/signup' element={<Signup />} />
-                        <Route path='/products' element={<Product />} />
-                    </Routes>
+                        <ProductProvider>
+                            <Navbar />
+                            <Routes>
+                                <Route path='/' element={<Home />} />
+                                <Route path='/login' element={<Login />} />
+                                <Route path='/signup' element={<Signup />} />
+                                <Route path='/products' element={<Product />} />
+                            </Routes>
+                        </ProductProvider>
                     </AuthProvider>
                     <Footer />
                 </Router>

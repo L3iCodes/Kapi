@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { memo } from "react";
 
 function Filter({ className, onFilter }){
     const [categories, setCategories] = useState([]);
     const [priceRange, setPriceRange] = useState('0,20000');
     
-    const handleCategoryChange = (category) => (e) => {
+    const handleCategoryChange = useCallback((category) => (e) => {
         let newCategories;
         if (e.target.checked) {
             newCategories = [...categories, category];
@@ -13,12 +13,17 @@ function Filter({ className, onFilter }){
             newCategories = categories.filter(c => c !== category);
         }
         setCategories(newCategories);
+        onFilter(priceRange, newCategories);
+    }, [categories, priceRange, onFilter]);
 
-        onFilter(priceRange, newCategories)
-    };
+    const handlePriceChange = useCallback((e) => {
+        const newPriceRange = e.target.value;
+        setPriceRange(newPriceRange);
+        onFilter(newPriceRange, categories);
+    }, [categories, onFilter]);
 
     return(
-        <form 
+        <div 
             onClick={(e) => e.stopPropagation()}
             className={`${className} flex flex-col gap-5 p-2 border-1 border-subtext rounded-[5px] w-[220px] h-fit`}>
     
@@ -33,10 +38,7 @@ function Filter({ className, onFilter }){
                     className="bg-secondary p-1.5 text-[12px] text-subtext rounded-[5px] cursor-pointer
                                 border border-transparent hover:border-subtext w-full "
                     value={priceRange}
-                    onChange={(e) => {
-                        setPriceRange(e.target.value)
-                        onFilter(e.target.value, categories)
-                    }}
+                    onChange={handlePriceChange}
                     >
                         <option value='0,20000'>All</option>
                         <option value='0,200'>0 - 200</option>
@@ -68,7 +70,7 @@ function Filter({ className, onFilter }){
             <label className="flex items-center gap-2 text-[12px] text-subtext">
                 <input type="checkbox" name="stock" value='in-stock'/> In Stock Only
             </label>
-        </form>
+        </div>
     );
 };
 

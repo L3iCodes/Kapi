@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import Filter from "../components/Filter";
 import ProductCard from "../components/ProductCard";
 import Search from "../components/Search";
@@ -10,14 +10,26 @@ import useFilter from "../hooks/useFilter";
 export default function Product(){
     const { productList } = useProduct();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const [filteredList, setFilteredList] = useState(productList);
-    const { handleFilter, handleSorting } = useFilter()
+    const { filteredList, onFilter, onSort } = useFilter(productList);
+
+    const toggleFilter = useCallback(() => {
+        setIsFilterOpen(s => !s);
+    }, [])
     
-    // Assign productList to filtered list at start
-    useEffect(() => {
-        setFilteredList(productList);
-    }, [productList]);
-    
+    // Create product card array (rerender when filteredList is different)
+    const productCards = useMemo(() => {
+        return filteredList?.map(product => (
+            <ProductCard 
+                key={product.product_id}
+                id={product.product_id}
+                name={product.name}
+                description={product.description}
+                price={product.price}
+                img_src={product.img_url}
+            />
+        ));
+    }, [filteredList]);
+
     return(
         <div className="flex flex-col gap-3 ">
             <div>
@@ -28,10 +40,7 @@ export default function Product(){
             <div className="flex gap-3 relative">
                 {/* Filter */}
                 <Filter 
-                    onFilter={(range, categories) =>{
-                        const filtered = handleFilter(productList, range, categories);
-                        setFilteredList(filtered);
-                    }}
+                    onFilter={onFilter}
                     className={`hidden sm:flex !sticky top-15 self-start`}
                 />
 
@@ -41,7 +50,7 @@ export default function Product(){
                         
                         {/* Filter for mobile */}
                         <div 
-                            onClick={() => setIsFilterOpen(s => !s)}
+                            onClick={toggleFilter}
                             className={`sm:hidden flex items-center h-full bg-secondary gap-2 px-2 rounded-[5px] cursor-pointer border-1
                                 ${isFilterOpen ? 'text-text border-subtext' : 'text-subtext border-transparent'} hover:bg-accent/20 active:bg-secondary cursor-pointer`}
                             >
@@ -49,31 +58,19 @@ export default function Product(){
                                 <h5>Filter</h5>
                                 {isFilterOpen && (
                                     <Filter 
-                                        onFilter={(range, categories) =>{
-                                            const filtered = handleFilter(productList, range, categories);
-                                            setFilteredList(filtered);
-                                        }}
+                                        onFilter={onFilter}
                                         className={`absolute bg-secondary top-11 left-0 z-100 drop-shadow-2xl shadow-2xl shadow-black`}
                                     />
                                 )}
                         </div>
 
                         <Search />
-                        <Sort onSort={(order) => setFilteredList(handleSorting(filteredList, order))} />
+                        <Sort onSort={onSort} />
                     </div>
                     
 
                     <div className="w-full grid grid-cols-2 sm:grid-cols-3 gap-5">
-                        {filteredList && filteredList.map(product => (
-                            <ProductCard 
-                                key={product.product_id}
-                                id={product.product_id}
-                                name={product.name}
-                                description={product.description}
-                                price={product.price}
-                                img_src={product.img_url}
-                            />
-                        ))}
+                        {productCards}
                     </div>
                 </div>
             </div>

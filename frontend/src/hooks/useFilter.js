@@ -1,6 +1,14 @@
-export default function useFilter(){
+import { useCallback, useState, useEffect, useMemo } from "react";
+
+export default function useFilter(productList){
+    const [filteredList, setFilteredList] = useState(productList);
+
+    // Update filtered list when productList changes
+    useEffect(() => {
+        setFilteredList(productList);
+    }, [productList]);
     
-    const handleFilter = (productList, range, categories) => {
+    const handleFilter = useCallback((productList, range, categories) => {
         const priceRange = range.split(",").map(Number);
 
         const filter = categories.length === 0 
@@ -18,9 +26,9 @@ export default function useFilter(){
                 return matchesCategory && matchesPrice;
             });
         return filter;
-    };
+    }, []);
 
-    const handleSorting = (list, sortOption) => {
+    const handleSorting = useCallback((list, sortOption) => {
         const sorted = [...list].sort((a, b) => {
             switch (sortOption) {
                 case "name-az":
@@ -37,7 +45,16 @@ export default function useFilter(){
         });
 
         return sorted;
-    };
+    }, []);
 
-    return({handleFilter, handleSorting})
+    const onFilter = useCallback((range, categories) => {
+        const filtered = handleFilter(productList, range, categories);
+        setFilteredList(filtered);
+    }, [productList, handleFilter]);
+
+    const onSort = useCallback((order) => {
+        setFilteredList(prev => handleSorting(prev, order));
+    }, [handleSorting]);
+
+    return({ filteredList, onFilter, onSort})
 };

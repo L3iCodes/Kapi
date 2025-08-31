@@ -2,7 +2,6 @@ import ProductCard from "./ProductCard"
 import { memo } from "react";
 
 function ProductCarousel( {products} ){
-    console.log('Product Carousel Mounted');
 
     return(
         <div className="flex flex-col w-full gap-3 overflow-hidden">

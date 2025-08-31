@@ -2,18 +2,22 @@ import { useState, useEffect } from "react";
 import Filter from "../components/Filter";
 import ProductCard from "../components/ProductCard";
 import Search from "../components/Search";
+import Sort from "../components/Sort";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useProduct } from "../context/ProductContext";
+import useFilter from "../hooks/useFilter";
 
 export default function Product(){
     const { productList } = useProduct();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [filteredList, setFilteredList] = useState(productList);
-
+    const { handleFilter, handleSorting } = useFilter()
+    
+    // Assign productList to filtered list at start
     useEffect(() => {
         setFilteredList(productList);
     }, [productList]);
-
+    
     return(
         <div className="flex flex-col gap-3 ">
             <div>
@@ -23,7 +27,13 @@ export default function Product(){
             
             <div className="flex gap-3 relative">
                 {/* Filter */}
-                <Filter className={`hidden sm:flex !sticky top-15 self-start`}/>
+                <Filter 
+                    onFilter={(range, categories) =>{
+                        const filtered = handleFilter(productList, range, categories);
+                        setFilteredList(filtered);
+                    }}
+                    className={`hidden sm:flex !sticky top-15 self-start`}
+                />
 
                 {/* Filter, Search, and order */}
                 <div className="flex flex-col gap-3 w-full">
@@ -37,19 +47,19 @@ export default function Product(){
                             >
                                 <Icon icon="uiw:filter" width="15" height="15"/>
                                 <h5>Filter</h5>
-                                {isFilterOpen && (<Filter className={`absolute bg-secondary top-11 left-0 z-100 drop-shadow-2xl shadow-2xl shadow-black`}/>)}
+                                {isFilterOpen && (
+                                    <Filter 
+                                        onFilter={(range, categories) =>{
+                                            const filtered = handleFilter(productList, range, categories);
+                                            setFilteredList(filtered);
+                                        }}
+                                        className={`absolute bg-secondary top-11 left-0 z-100 drop-shadow-2xl shadow-2xl shadow-black`}
+                                    />
+                                )}
                         </div>
 
                         <Search />
-                        <select 
-                            ame="order" 
-                            className="bg-secondary px-4 text-[12px] text-subtext rounded-[5px] cursor-pointer h-full w-[40%]
-                                        border border-transparent hover:border-subtext"
-                            >
-                                <option value="name">Name</option>
-                                <option value="highest_to_lowest">Price (highest to lowest)</option>
-                                <option value="lowest_to_highest">Price (lowest to highest)</option>
-                        </select>
+                        <Sort onSort={(order) => setFilteredList(handleSorting(filteredList, order))} />
                     </div>
                     
 

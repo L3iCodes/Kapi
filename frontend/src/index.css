@@ -50,12 +50,12 @@ body{
 }
 
 .pageWrapper{
-    @apply flex flex-col gap-10 p-5 pb-30 sm:p-5  min-h-[100dvh] w-[100dvw] max-w-[760px] relative 
+    @apply flex flex-col gap-10 p-5 pb-30 sm:p-5  min-h-[100dvh] w-[100dvw] max-w-[760px] relative
 }
 
-button{
+/* button{
     @apply bg-accent/80 px-7 py-1 w-fit rounded-[5px] cursor-pointer hover:bg-accent active:bg-accent/50
-}
+} */
 
 input{
     @apply flex items-center bg-secondary text-[12px] px-2 py-1 rounded-[3px] accent-accent  text-subtext

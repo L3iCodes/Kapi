@@ -83,31 +83,25 @@ function desktopNavigation(navigate, user, handleLogout){
                     height="15" 
                 /> 
 
-                {user
-                    ? (
-                    <>
-                        <Icon 
-                        className={'cursor-pointer hover:text-text active:text-subtext'}
-                        icon="mdi:cart-outline" 
-                        width="15" height="15" 
-                        /> 
+                <Icon 
+                    className={'cursor-pointer hover:text-text active:text-subtext'}
+                    icon="mdi:cart-outline" 
+                    width="15" height="15" 
+                    /> 
 
-                        <Icon 
-                            onClick={handleLogout}
-                            className={'cursor-pointer hover:text-text active:text-subtext'}
-                            icon="gg:profile" 
-                            width="15" 
-                            height="15" /> 
-                    </>
-                        
-                    ):(
-                        <h5 
-                            onClick={() => navigate('/login')}
-                            className='cursor-pointer hover:text-text active:text-subtext'>
-                            Login
-                        </h5>
-                    )
-                }
+                <Icon 
+                    className={'cursor-pointer hover:text-text active:text-subtext'}
+                    icon="gg:profile" 
+                    width="15" 
+                    height="15" /> 
+
+                {!user && (
+                    <h5 
+                        onClick={() => navigate('/login')}
+                        className='cursor-pointer hover:text-text active:text-subtext'>
+                        Login
+                    </h5>
+                )}
             </div>
         </div> 
     );

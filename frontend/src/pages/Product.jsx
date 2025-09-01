@@ -21,11 +21,7 @@ export default function Product(){
         return filteredList?.map(product => (
             <ProductCard 
                 key={product.product_id}
-                id={product.product_id}
-                name={product.name}
-                description={product.description}
-                price={product.price}
-                img_src={product.img_url}
+                product={product}
             />
         ));
     }, [filteredList]);

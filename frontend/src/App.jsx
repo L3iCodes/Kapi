@@ -6,13 +6,14 @@ import { ProductProvider } from './context/ProductContext'
 
 // Components
 import Navbar from './components/Navbar'
-import Product from './pages/Product'
 import Footer from './components/Footer'
 
 // Pages
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import Product from './pages/Product'
+import ProductInfo from './pages/ProductInfo'
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
                                 <Route path='/login' element={<Login />} />
                                 <Route path='/signup' element={<Signup />} />
                                 <Route path='/products' element={<Product />} />
+                                <Route path='/products/:productId' element={<ProductInfo />} />
                             </Routes>
                         </ProductProvider>
                     </AuthProvider>

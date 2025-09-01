@@ -16,7 +16,7 @@ export default function Home(){
     return(
         <div className="flex flex-col gap-25">
             <Hero />
-            <ProductCarousel products={featured}/>
+            <ProductCarousel name={'Featured Products'} products={featured}/>
             <ProductCategory />
         </div>
     );

@@ -1,5 +1,6 @@
 import beans from '../assets/Beans.png'
 import mug from '../assets/CoffeeMug.png'
+import Button from './Button';
 
 export default function Hero(){
     return(
@@ -14,7 +15,7 @@ export default function Hero(){
                     <span className='text-accent'>Perfected</span>
                 </h1>
                 <h4 className='text-subtext'>Discover premium coffee and tea that fit your lifestyle.</h4>
-                <button className='mt-5 font-bold'> <h5>Browse Now</h5> </button>
+                <Button className={'mt-5'}>Browse Now</Button>
             </div>
 
             <img 

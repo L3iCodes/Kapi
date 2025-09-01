@@ -1,10 +1,12 @@
 import { useCallback, useState, useEffect, useMemo } from "react";
 
 export default function useFilter(productList){
+    const [basedFilter, setBasedFilter] = useState(productList)
     const [filteredList, setFilteredList] = useState(productList);
 
     // Update filtered list when productList changes
     useEffect(() => {
+        setBasedFilter(productList);
         setFilteredList(productList);
     }, [productList]);
     
@@ -47,14 +49,26 @@ export default function useFilter(productList){
         return sorted;
     }, []);
 
+    const onSearch = useCallback((text) => {
+        if (text === '') {
+            setFilteredList(basedFilter);
+        } else {
+            setFilteredList(basedFilter.filter(product => 
+                product.name.toLowerCase().includes(text.toLowerCase())
+            ));
+        };
+    }, [basedFilter, filteredList]);
+
     const onFilter = useCallback((range, categories) => {
         const filtered = handleFilter(productList, range, categories);
+        setBasedFilter(filtered);
         setFilteredList(filtered);
     }, [productList, handleFilter]);
 
     const onSort = useCallback((order) => {
-        setFilteredList(prev => handleSorting(prev, order));
+        setBasedFilter(prev => handleSorting(prev, order));
+        setFilteredList(prev => handleSorting(prev, order))
     }, [handleSorting]);
 
-    return({ filteredList, onFilter, onSort})
+    return({  basedFilter, filteredList, onFilter, onSort, onSearch})
 };

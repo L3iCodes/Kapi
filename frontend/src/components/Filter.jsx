@@ -5,6 +5,7 @@ function Filter({ className, onFilter }){
     const [categories, setCategories] = useState([]);
     const [priceRange, setPriceRange] = useState('0,20000');
     
+    // Handles category filter selection
     const handleCategoryChange = useCallback((category) => (e) => {
         let newCategories;
         if (e.target.checked) {
@@ -16,6 +17,7 @@ function Filter({ className, onFilter }){
         onFilter(priceRange, newCategories);
     }, [categories, priceRange, onFilter]);
 
+    // Handle Price Range
     const handlePriceChange = useCallback((e) => {
         const newPriceRange = e.target.value;
         setPriceRange(newPriceRange);

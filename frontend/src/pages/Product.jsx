@@ -10,12 +10,12 @@ import useFilter from "../hooks/useFilter";
 export default function Product(){
     const { productList } = useProduct();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const { filteredList, onFilter, onSort } = useFilter(productList);
+    const { filteredList, onFilter, onSort, onSearch } = useFilter(productList);
 
     const toggleFilter = useCallback(() => {
         setIsFilterOpen(s => !s);
-    }, [])
-    
+    }, []);
+
     // Create product card array (rerender when filteredList is different)
     const productCards = useMemo(() => {
         return filteredList?.map(product => (
@@ -64,7 +64,7 @@ export default function Product(){
                                 )}
                         </div>
 
-                        <Search />
+                        <Search onSearch={onSearch}/>
                         <Sort onSort={onSort} />
                     </div>
                     

@@ -1,28 +1,102 @@
 import { useAuth } from "../context/AuthContext";
 import useCart from "../hooks/useCart";
 import CartItemCard from "../components/CartItemCard";
+import Button from "../components/Button";
+import { useMemo, useState } from "react";
 
 export default function Cart(){
     const {cartQuery} = useCart();
+    const [itemSelected, setItemSelected] = useState([]);
+    const sampleDeliveryCost = 65;
+    const sampleTaxCost = 20;
+
+    const handleCartSelect = (e, value) => {
+        setItemSelected(() => {
+            if(e.target.checked){
+                return [...itemSelected, value]
+            };
+
+            return itemSelected.filter(index => index !== value);
+        });
+    };
+
+    const calculateSelectedTotal = () => {
+        if (!itemSelected.length || !cartQuery.data) return 0;
+        
+        return itemSelected.reduce((total, index) => {
+            const item = cartQuery.data[index];
+            return item ? total + (item.price * item.quantity) : total;
+        }, 0);
+    };
+
+    const ItemCards = useMemo(() => 
+        cartQuery.data?.map((product, index) => (
+            <CartItemCard
+                key={product.user_item_id}
+                index={index}
+                product={product}
+                onSelect={handleCartSelect}
+            />
+        ))
+    , [cartQuery.data, itemSelected]);
 
     return(
-        <div className="flex flex-col gap-3 ">
+        <div className="flex flex-col h-full gap-3 ">
             <div>
                 <h2 className="font-bold">Your Cart</h2>
                 <h3 className="text-subtext">Manage your purchase</h3>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
                 <div className="flex flex-col w-full sm:w-[90%] bg-secondary gap-2 border-1 border-subtext rounded-[5px] p-2">
-                    {cartQuery.data && (
-                        cartQuery.data.map(product => (
-                            <CartItemCard key={product.user_item_id} product={product} />
-                        ))
-                    )}
+                    {ItemCards}
                 </div>
 
-                <div className="flex w-full sm:w-[40%] relative">
+                <div className="flex flex-col w-full absolute bottom-25 left-0 sm:w-[40%] border-1 border-accent  rounded-[5px] p-2 sm:relative sm:bottom-0">
                     {/* gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient"/>
+                    <div className="absolute inset-0 bg-gradient "/>
+                    
+                    <div className="flex flex-col z-10 gap-2 w-full h-full">
+                        <h3 className="font-bold">Order Summary</h3>
+                        <div className="flex flex-col">
+                            <h5>Promo Code</h5>
+                            <div className="flex gap-2">
+                                <input type='text' placeholder={'Enter Code'} className="w-full"/>
+                                <Button variant="primary" className={'!px-2 !font-medium'}><h6>Apply</h6></Button>
+                            </div>
+                            {itemSelected.length > 0 && (
+                                <>
+                                    <hr className="my-4 text-accent"/>
+                                        <div className="flex justify-between">
+                                            <h5>{itemSelected.length} items</h5>
+                                            <h5>{`₱${calculateSelectedTotal().toFixed(2)}`}</h5>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <h5>Delivery Cost</h5>
+                                            <h5>₱{sampleDeliveryCost.toFixed(2)}</h5>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <h5>Tax</h5>
+                                            <h5>₱{sampleTaxCost.toFixed(2)}</h5>
+                                        </div>
+                                    <hr className="mt-4 mb-1 text-accent"/>
+                                    
+                                    <div className="flex justify-between font-bold">
+                                        <h5>Total</h5>
+                                        <h5>₱{(calculateSelectedTotal() 
+                                            + sampleDeliveryCost 
+                                            + sampleTaxCost).toFixed(2)}
+                                        </h5>
+                                    </div>
+
+                                    <Button className={'!mt-5 !w-full'}><h5>Proceed to Checkout</h5></Button>
+                                    
+                                </>
+                            )}
+                            
+                        </div>
+                    </div>
+                    
+                    
                 </div>
             </div>
         </div>

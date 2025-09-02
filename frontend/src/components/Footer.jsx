@@ -6,7 +6,7 @@ export default function Footer(){
 
     return(
         pathName != '/login' && pathName != '/signup' && (
-            <footer className={`hidden sm:flex w-full gap-3 items-center justify-between h-[115px] p-5 bg-secondary border-1 border-accent rounded-[5px]`}>
+            <footer className={`hidden mt-auto sm:flex w-full gap-3 items-center justify-between h-[115px] p-5 bg-secondary border-1 border-accent rounded-[5px]`}>
                 
                 {/* Socials */}
                 <div className="flex flex-col">

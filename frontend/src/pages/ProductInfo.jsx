@@ -5,6 +5,7 @@ import useFilter from "../hooks/useFilter";
 import ProductCarousel from "../components/ProductCarousel"
 import { useProduct } from "../context/ProductContext";
 import { useEffect, useState } from "react";
+import QuantityCounter from "../components/QuantityCounter";
 
 export default function ProductInfo(){
     const location = useLocation();
@@ -37,43 +38,8 @@ export default function ProductInfo(){
                     </div>
 
                     {/* Stock Info */}
-                    <div className="flex items-center gap-2 mt-auto">
-                        {/* Item Counter */}
-                        <div className="flex items-center">
-                            <Icon 
-                                onClick={() => numItem > 1 && setNumItem(s => s -= 1)}
-                                className={'bg-secondary text-subtext rounded-[3px] cursor-pointer hover:bg-accent hover:text-text active:bg-secondary'} 
-                                icon="ic:round-minus" 
-                                width="24" 
-                                height="24" 
-                            />
+                    <QuantityCounter stock={product.stock} onStock={(num) => setNumItem(num)} />
 
-                            <input 
-                                type='text' 
-                                onChange={(e) => {
-                                    const value = e.target.value;
-                                    // Only allow numbers and limit to stock
-                                    if (/^\d*$/.test(value)) { // Only digits
-                                        const numValue = parseInt(value) || 0;
-                                        if (numValue <= product.stock) {
-                                            setNumItem(numValue);
-                                        }
-                                    }
-                                }}
-                                className="!w-[50px] !bg-primary !text-accent font-bold text-center !text-[15px]" 
-                                value={numItem}
-                            />
-                            
-                            <Icon 
-                                onClick={() => numItem < product.stock && setNumItem(s => s += 1)}
-                                className={'bg-secondary text-subtext rounded-[3px] cursor-pointer hover:bg-accent hover:text-text active:bg-secondary'} 
-                                icon="ic:round-plus" 
-                                width="24" 
-                                height="24" 
-                            />
-                        </div>
-                        <h5 className="text-subtext ">{product.stock} stocks remaining</h5>
-                    </div>
 
                     {/* Buttons */}
                     <div className="flex gap-5">

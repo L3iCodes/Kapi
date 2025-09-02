@@ -140,11 +140,13 @@ export const authenticateJWT = (req, res, next) => {
 
     const token = authHeader.split(" ")[1] //Bearer <token>
     jwt.verify(token, process.env.SECRET, (err, user) => {
-        if (!err){
-            // Continue and asign user data to req.user
-            req.user = user;
-            next();
-        };        
+        if (err){
+            return res.status(401).json({success:false, message: 'Invalid access token'});
+        };  
+        
+        // Continue and asign user data to req.user
+        req.user = user;
+        next();
     })
 }
 

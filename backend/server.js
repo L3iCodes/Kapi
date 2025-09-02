@@ -4,6 +4,7 @@ import cors from 'cors'
 import cookieParser from "cookie-parser";
 import authRoutes from './routes/auth.routes.js'
 import productRoutes from './routes/product.routes.js'
+import cartRoutes from './routes/cart.routes.js'
 
 
 dotenv.config()
@@ -27,6 +28,7 @@ app.listen(PORT, () => {
 });
 
 
-// Authentication Routes
+// Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/product', productRoutes);
+app.use('/api/product', productRoutes); 
+app.use('/api/cart', cartRoutes);

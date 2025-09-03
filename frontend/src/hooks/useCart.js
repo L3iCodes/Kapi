@@ -2,14 +2,16 @@ import { useMutation, useQuery, QueryClient, useQueryClient } from "@tanstack/re
 import { addToCartAPI, checkoutAPI, deleteFromCartAPI, getCartAPI, updateItemQtyAPI } from "../api/cart.api";
 import { useState } from "react";
 import { data } from "react-router-dom";
+import { useNotification } from "../context/NotificationContext";
 
 export default function useCart(){
     const queryClient = useQueryClient();
+    const {setNotificationMessage} = useNotification()
     const [itemSelected, setItemSelected] = useState([])
     const deliveryCost = 65;
     const tax = 20;
     
-
+    
     // Get all cart items
     const cartQuery = useQuery({
         queryKey: ['cart'],
@@ -21,6 +23,7 @@ export default function useCart(){
         mutationFn: ({productId, quantity}) => addToCartAPI(productId, quantity),
         onSuccess: () => {
             queryClient.invalidateQueries(['cart'])
+            setNotificationMessage('Item Added to Cart')
         }
     })
 
@@ -43,10 +46,9 @@ export default function useCart(){
     
     const checkoutMutation =  useMutation({
         mutationFn: checkoutAPI,
-        onSuccess: (data) => {
+        onSuccess: () => {
             queryClient.invalidateQueries(['cart'])
-            console.log(data)
-            // Add deleteFunction once completed
+            setNotificationMessage('Thank you for your purchase!')
         }
     });
 

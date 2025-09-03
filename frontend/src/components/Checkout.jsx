@@ -2,13 +2,18 @@ import { Icon } from "@iconify/react/dist/iconify.js"
 import useCart from "../hooks/useCart";
 import Button from "./Button";
 import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "../context/AuthContext";
+
 
 export default function Checkout({ list, selectedItems=null, onSuccess }){ 
     const { checkoutMutation, cartQuery, deleteItemutation } = useCart()
+    const { user } = useAuth();
+    console.log(user)
     
     const handleCheckout = useMutation({
         mutationFn: checkoutMutation.mutateAsync, // Use the original checkout function
-        onSuccess: (data) => {
+        onSuccess: () => {
+
             // Delete cart items after successful checkout
             if (selectedItems && cartQuery.data) {
                 selectedItems.forEach(itemIndex => {
@@ -40,8 +45,8 @@ export default function Checkout({ list, selectedItems=null, onSuccess }){
                     <Icon className={'text-text'} icon="iconamoon:profile-fill" width="23" height="23" />
                     <div>
                         <h4 className="text-text font-bold">Customer Information</h4>
-                        <h4 className="font-medium">Jan Wilhelm Sy</h4>
-                        <h5>janwilhelmtsy@gmail.com</h5>
+                        <h4 className="font-medium">{user.name}</h4>
+                        <h5>{user.email}</h5>
                         <h5>0961 365 5723</h5>
                     </div>
                 </div>

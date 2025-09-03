@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react'
 import mug from '../assets/CoffeeMug.png'
 import { useNavigate } from 'react-router-dom'
+import Button from '../components/Button'
 
 export default function Signup(){
     const navigate = useNavigate()
@@ -62,7 +63,7 @@ export default function Signup(){
                         />
                     </div>
 
-                    <button className='!w-full mt-5'>Create Account</button>
+                    <Button className='!w-full mt-5'>Create Account</Button>
 
                     <h6 className='self-center'>Already have an account? 
                         <span 

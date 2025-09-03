@@ -15,22 +15,6 @@ export default function ProductInfo(){
     const { addCartMutation } = useCart();
     const {filteredList, onFilter} = useFilter(productList);
     const [numItem, setNumItem] = useState(1);
-    const [showSuccess, setShowSuccess] = useState(false);
-
-    useEffect(() => {
-        if (addCartMutation.isSuccess) {
-            setShowSuccess(true);
-            
-            // Reset after 3 seconds
-            const timer = setTimeout(() => {
-                setShowSuccess(false);
-                addCartMutation.reset(); // Reset mutation state
-            }, 3000);
-
-            // Cleanup timer
-            return () => clearTimeout(timer);
-        }
-    }, [addCartMutation.isSuccess]);
 
     useEffect(() => {
          if (productList && product?.category) {
@@ -70,7 +54,7 @@ export default function ProductInfo(){
                             variant="secondary" 
                             className={'!w-[50%] sm:!w-fit'}
                         >
-                                <h3>{showSuccess ? 'Item Added to Cart' : 'Add to Cart'}</h3>
+                                <h3>Add to Cart</h3>
                         </Button>
                     </div>
 

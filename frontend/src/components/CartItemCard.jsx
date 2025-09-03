@@ -3,9 +3,11 @@ import QuantityCounter from "./QuantityCounter";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useCart from "../hooks/useCart";
+import { useNotification } from "../context/NotificationContext";
 
 export default function CartItemCard({ index, product, onSelect }){
     const navigate = useNavigate();
+    const {setNotificationMessage} = useNotification()
     const {deleteItemutation, updateItemQtyMutation} = useCart();
     const handleNavigate = () => {
         navigate(`/products/${product.product_id}`, {
@@ -46,9 +48,12 @@ export default function CartItemCard({ index, product, onSelect }){
             </div>
 
             <Icon 
-                onClick={() => deleteItemutation.mutate({
-                    cart_id: product.user_item_id
-                })}
+                onClick={() => {
+                    setNotificationMessage('Item Deleted from Cart')
+                    deleteItemutation.mutate({
+                        cart_id: product.user_item_id
+                    })
+                }}
                 className="flex justify-center items-center cursor-pointer hover:bg-red-600 rounded-[3px]"
                 icon="material-symbols:delete-outline" 
                 width="30" 

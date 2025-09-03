@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react'
 import mug from '../assets/CoffeeMug.png'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import Button from '../components/Button.jsx'
 
 export default function Login(){
     const navigate = useNavigate();
@@ -58,7 +59,7 @@ export default function Login(){
                         <h6 className='-mt-2 self-end'>{loginMutation.error.message}</h6>
                     )}
                     
-                    <button type='submit' className='!w-full mt-2'>{loginMutation.isPending ? 'Logging In...' : 'Login'}</button>
+                    <Button type='submit' className='!w-full mt-2'>{loginMutation.isPending ? 'Logging In...' : 'Login'}</Button>
                     <Icon 
                         className='p-2 bg-text rounded-full self-center cursor-pointer hover:bg-secondary active:bg-text'
                         icon="devicon:google" 

@@ -10,7 +10,7 @@ export async function get_products_api(){
         );
         return res.data.result;
     }catch(error){
-        console.log(error)
+        throw new Error(error.response.data.message)
     };
 };
 

@@ -5,29 +5,14 @@ import Button from "../components/Button";
 import { useMemo, useState } from "react";
 
 export default function Cart(){
-    const {cartQuery} = useCart();
-    const [itemSelected, setItemSelected] = useState([]);
-    const sampleDeliveryCost = 65;
-    const sampleTaxCost = 20;
-
-    const handleCartSelect = (e, value) => {
-        setItemSelected(() => {
-            if(e.target.checked){
-                return [...itemSelected, value]
-            };
-
-            return itemSelected.filter(index => index !== value);
-        });
-    };
-
-    const calculateSelectedTotal = () => {
-        if (!itemSelected.length || !cartQuery.data) return 0;
-        
-        return itemSelected.reduce((total, index) => {
-            const item = cartQuery.data[index];
-            return item ? total + (item.price * item.quantity) : total;
-        }, 0);
-    };
+    const {
+        cartQuery, 
+        itemSelected, 
+        handleCartSelect, 
+        calculateSelectedTotal,  
+        calculateTotal,
+        tax, deliveryCost
+    } = useCart();
 
     const ItemCards = useMemo(() => 
         cartQuery.data?.map((product, index) => (
@@ -38,7 +23,7 @@ export default function Cart(){
                 onSelect={handleCartSelect}
             />
         ))
-    , [cartQuery.data, itemSelected]);
+    );
 
     return(
         <div className="flex flex-col h-full gap-3 ">
@@ -51,11 +36,11 @@ export default function Cart(){
                     {ItemCards}
                 </div>
 
-                <div className="flex flex-col w-full absolute bottom-25 left-0 sm:w-[40%] border-1 border-accent  rounded-[5px] p-2 sm:relative sm:bottom-0">
+                <div className="flex flex-col w-full h-fit absolute bottom-25 left-0 sm:w-[40%] border-1 border-accent  rounded-[5px] p-2 sm:relative sm:bottom-0">
                     {/* gradient overlay */}
                     <div className="absolute inset-0 bg-gradient "/>
                     
-                    <div className="flex flex-col z-10 gap-2 w-full h-full">
+                    <div className="flex flex-col z-10 gap-2 w-full">
                         <h3 className="font-bold">Order Summary</h3>
                         <div className="flex flex-col">
                             <h5>Promo Code</h5>
@@ -72,31 +57,24 @@ export default function Cart(){
                                         </div>
                                         <div className="flex justify-between">
                                             <h5>Delivery Cost</h5>
-                                            <h5>₱{sampleDeliveryCost.toFixed(2)}</h5>
+                                            <h5>₱{deliveryCost.toFixed(2)}</h5>
                                         </div>
                                         <div className="flex justify-between">
                                             <h5>Tax</h5>
-                                            <h5>₱{sampleTaxCost.toFixed(2)}</h5>
+                                            <h5>₱{tax.toFixed(2)}</h5>
                                         </div>
                                     <hr className="mt-4 mb-1 text-accent"/>
                                     
                                     <div className="flex justify-between font-bold">
                                         <h5>Total</h5>
-                                        <h5>₱{(calculateSelectedTotal() 
-                                            + sampleDeliveryCost 
-                                            + sampleTaxCost).toFixed(2)}
-                                        </h5>
+                                        <h5>₱{calculateTotal().toFixed(2)}</h5>
                                     </div>
 
                                     <Button className={'!mt-5 !w-full'}><h5>Proceed to Checkout</h5></Button>
-                                    
                                 </>
                             )}
-                            
                         </div>
                     </div>
-                    
-                    
                 </div>
             </div>
         </div>

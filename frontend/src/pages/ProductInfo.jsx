@@ -6,14 +6,31 @@ import ProductCarousel from "../components/ProductCarousel"
 import { useProduct } from "../context/ProductContext";
 import { useEffect, useState } from "react";
 import QuantityCounter from "../components/QuantityCounter";
+import useCart from "../hooks/useCart";
 
 export default function ProductInfo(){
     const location = useLocation();
     const product = location.state?.product; //Retrieve product info in state
     const {productList} = useProduct();
-    
+    const { addCartMutation } = useCart();
     const {filteredList, onFilter} = useFilter(productList);
     const [numItem, setNumItem] = useState(1);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    useEffect(() => {
+        if (addCartMutation.isSuccess) {
+            setShowSuccess(true);
+            
+            // Reset after 3 seconds
+            const timer = setTimeout(() => {
+                setShowSuccess(false);
+                addCartMutation.reset(); // Reset mutation state
+            }, 3000);
+
+            // Cleanup timer
+            return () => clearTimeout(timer);
+        }
+    }, [addCartMutation.isSuccess]);
 
     useEffect(() => {
          if (productList && product?.category) {
@@ -44,7 +61,17 @@ export default function ProductInfo(){
                     {/* Buttons */}
                     <div className="flex gap-5">
                         <Button className={'!w-[50%] sm:!w-fit'}><h3>Buy Now</h3></Button>
-                        <Button variant="secondary" className={'!w-[50%] sm:!w-fit'}><h3>Add to Cart</h3></Button>
+                        <Button 
+                            onClick={() => addCartMutation.mutate(
+                                {productId:product.product_id, 
+                                    quantity:numItem 
+                                }
+                            )}
+                            variant="secondary" 
+                            className={'!w-[50%] sm:!w-fit'}
+                        >
+                                <h3>{showSuccess ? 'Item Added to Cart' : 'Add to Cart'}</h3>
+                        </Button>
                     </div>
 
                 </div>

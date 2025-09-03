@@ -65,3 +65,21 @@ export const deleteFromCart = async (req, res) => {
         return res.status(401).json({success: false, message:`Failed to delete item in cart`, error});
     };
 };
+
+export const updateItemQty = async (req, res) => {
+    const { cart_id, quantity } = req.body;
+
+    try{
+        const [result] = await pool.query(
+            `UPDATE kapi_database.user_items
+            SET quantity = ?
+            WHERE user_item_id = ?
+            ;`,
+            [quantity, cart_id]
+        );
+
+        return res.status(201).json({success: true, message:'Succesfully updated item qty in the cart', result});
+    }catch(error){
+        return res.status(401).json({success: false, message:`Failed to update item qty in cart`, error});
+    };
+};

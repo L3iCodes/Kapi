@@ -6,7 +6,7 @@ import useCart from "../hooks/useCart";
 
 export default function CartItemCard({ index, product, onSelect }){
     const navigate = useNavigate();
-    const {deleteItemutation} = useCart();
+    const {deleteItemutation, updateItemQtyMutation} = useCart();
     const handleNavigate = () => {
         navigate(`/products/${product.product_id}`, {
         state: { product: product } //Store value in a state
@@ -31,7 +31,13 @@ export default function CartItemCard({ index, product, onSelect }){
                     stock={product.stock} 
                     baseCount={product.quantity} 
                     className={'sm:flex-col flex-col-reverse w-full'}
-                    onStock={(num) => setNumItems(num)}
+                    onStock={(num) => {
+                        setNumItems(num);
+                        updateItemQtyMutation.mutate({
+                            cart_id:product.user_item_id,
+                            quantity:num
+                        })
+                    }}
                 />
                 <div className="flex flex-col m-auto w-full items-center">
                     <h4 className="font-medium text-subtext text-center">Subtotal</h4>

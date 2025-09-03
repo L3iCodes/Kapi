@@ -53,3 +53,21 @@ export async function deleteFromCartAPI(cart_id){
         throw new Error(error.response.data.message)
     };
 };
+
+export async function updateItemQtyAPI(cart_id, quantity){
+    const token = localStorage.getItem("token");
+    console.log('IN UPDATE API')
+
+    try{
+        const res = await axios.post(
+            `${BACKEND_URL}/api/cart/update_qty`,
+             { cart_id, quantity },
+            {
+                headers: {"Authorization": `Bearer ${token}`},
+            }
+        );
+        return res.data.result;
+    }catch(error){
+        throw new Error(error.response.data.message)
+    };
+};

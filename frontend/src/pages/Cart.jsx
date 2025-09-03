@@ -13,6 +13,7 @@ export default function Cart(){
     const {
         cartQuery, 
         itemSelected, 
+        setItemSelected,
         handleCartSelect, 
         calculateSelectedTotal,  
         calculateTotal,
@@ -49,7 +50,13 @@ export default function Cart(){
         <div className="flex flex-col h-full gap-3 ">
             {isModalOpen && (
                 <Modal onClose={() => setIsModalOpen(false)}> 
-                    <Checkout list={checkoutInfo}/> 
+                    <Checkout 
+                        list={checkoutInfo} 
+                        selectedItems={itemSelected} 
+                        onSuccess={() => {
+                            setIsModalOpen(false);
+                            setItemSelected([]);
+                        }}/> 
                 </Modal>
             )}
             <div>

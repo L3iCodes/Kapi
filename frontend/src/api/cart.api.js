@@ -70,3 +70,20 @@ export async function updateItemQtyAPI(cart_id, quantity){
         throw new Error(error.response.data.message)
     };
 };
+
+export async function checkoutAPI(list){
+    const token = localStorage.getItem("token");
+
+    try{
+        const res = await axios.post(
+            `${BACKEND_URL}/api/cart/checkout`,
+            list,
+            {
+                headers: {"Authorization": `Bearer ${token}`},
+            }
+        );
+        return res.data.result;
+    }catch(error){
+        throw new Error(error.response.data.message)
+    };
+};

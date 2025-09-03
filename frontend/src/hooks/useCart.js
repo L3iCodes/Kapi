@@ -1,6 +1,7 @@
 import { useMutation, useQuery, QueryClient, useQueryClient } from "@tanstack/react-query";
-import { addToCartAPI, deleteFromCartAPI, getCartAPI, updateItemQtyAPI } from "../api/cart.api";
+import { addToCartAPI, checkoutAPI, deleteFromCartAPI, getCartAPI, updateItemQtyAPI } from "../api/cart.api";
 import { useState } from "react";
+import { data } from "react-router-dom";
 
 export default function useCart(){
     const queryClient = useQueryClient();
@@ -31,6 +32,7 @@ export default function useCart(){
         }
     });
 
+    // update item quantity
     const updateItemQtyMutation =  useMutation({
         mutationFn: ({cart_id, quantity}) =>updateItemQtyAPI(cart_id, quantity),
         onSuccess: () => {
@@ -39,6 +41,15 @@ export default function useCart(){
     });
 
     
+    const checkoutMutation =  useMutation({
+        mutationFn: checkoutAPI,
+        onSuccess: (data) => {
+            queryClient.invalidateQueries(['cart'])
+            console.log(data)
+            // Add deleteFunction once completed
+        }
+    });
+
     // create list of selected cart item
     const handleCartSelect = (e, value) => {
         setItemSelected((prev) => {
@@ -67,10 +78,12 @@ export default function useCart(){
 
     return({ 
         itemSelected, 
+        setItemSelected,
         cartQuery, 
         addCartMutation, 
         deleteItemutation, 
         updateItemQtyMutation, 
+        checkoutMutation,
         handleCartSelect, 
         calculateSelectedTotal, 
         calculateTotal, 

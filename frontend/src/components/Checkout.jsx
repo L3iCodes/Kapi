@@ -1,8 +1,32 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
 import useCart from "../hooks/useCart";
 import Button from "./Button";
+import { useMutation } from "@tanstack/react-query";
 
-export default function Checkout({ list }){ 
+export default function Checkout({ list, selectedItems=null, onSuccess }){ 
+    const { checkoutMutation, cartQuery, deleteItemutation } = useCart()
+    
+    const handleCheckout = useMutation({
+        mutationFn: checkoutMutation.mutateAsync, // Use the original checkout function
+        onSuccess: (data) => {
+            // Delete cart items after successful checkout
+            if (selectedItems && cartQuery.data) {
+                selectedItems.forEach(itemIndex => {
+                    const cartItem = cartQuery.data[itemIndex];
+                    if (cartItem) {
+                        deleteItemutation.mutate({
+                            cart_id: cartItem.user_item_id
+                        });
+                    }
+                });
+            }
+            onSuccess();
+        },
+        onError: (error) => {
+            toast.error('Failed to place order');
+        }
+    });
+    
     return(
         <>
         <div>
@@ -81,7 +105,13 @@ export default function Checkout({ list }){
                     <h5>₱{list.total}</h5>
                 </div>
 
-                <Button variant="primary" className={'self-end mt-auto'}><h5>Place Order</h5></Button>
+                <Button 
+                    onClick={() => handleCheckout.mutate(list)}
+                    variant="primary" 
+                    className={'self-end mt-auto'}
+                    >
+                        <h5>Place Order</h5>
+                </Button>
             </div>
         </div>
         </>

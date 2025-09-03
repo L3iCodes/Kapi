@@ -83,3 +83,53 @@ export const updateItemQty = async (req, res) => {
         return res.status(401).json({success: false, message:`Failed to update item qty in cart`, error});
     };
 };
+
+export const checkout = async (req, res) => {
+    const {user_id} = req.user;
+    const orders = req.body;
+    // console.log(orders.tax)
+    // console.log(orders)
+    // console.log('USER ', user_id)
+
+    try{
+        // Create order id
+        const [order] = await pool.query(
+            `INSERT INTO kapi_database.orders(user_id, tax, delivery, total)
+            VALUES (?,?,?,?)
+            ;`,
+            [user_id, orders.tax, orders.deliveryCost, orders.total]
+        )
+        
+        // Create bulk item list
+        const orderId = order.insertId;
+        const orderItems = orders.items.map(item => [
+            orderId,
+            item.product_id,
+            item.quantity,
+            item.price
+        ])
+
+
+        // Place order
+        const [result] = await pool.query(
+            `INSERT INTO kapi_database.order_items(order_id, product_id, quantity, price)
+            VALUES ?
+            ;`,
+            [orderItems]
+        );
+
+        // Update stock for each product
+        for (const item of orders.items) {
+            await pool.query(
+                `UPDATE kapi_database.products 
+                SET stock = stock - ? 
+                WHERE product_id = ? AND stock >= ?`,
+                [item.quantity, item.product_id, item.quantity]
+            );
+        }
+
+        return res.status(201).json({success: true, message:'Succesfully placed order', result});
+    }catch(error){
+        return res.status(401).json({success: false, message:`Failed to place order`, error});
+    };
+};

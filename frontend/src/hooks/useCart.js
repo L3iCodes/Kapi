@@ -7,6 +7,7 @@ export default function useCart(){
     const [itemSelected, setItemSelected] = useState([])
     const deliveryCost = 65;
     const tax = 20;
+    
 
     // Get all cart items
     const cartQuery = useQuery({
@@ -37,21 +38,22 @@ export default function useCart(){
         }
     });
 
+    
     // create list of selected cart item
     const handleCartSelect = (e, value) => {
-        setItemSelected(() => {
+        setItemSelected((prev) => {
             if(e.target.checked){
-                return [...itemSelected, value]
+                return [...prev, value]
             };
 
-            return itemSelected.filter(index => index !== value);
+            return prev.filter(index => index !== value);
         });
     };
 
     // calculate subtotal for selected item
     const calculateSelectedTotal = () => {
         if (!itemSelected.length || !cartQuery.data) return 0;
-        
+     
         return itemSelected.reduce((total, index) => {
             const item = cartQuery.data[index];
             return item ? total + (item.price * item.quantity) : total;

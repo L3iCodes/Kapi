@@ -30,7 +30,7 @@ export default function Product(){
         <div className="flex flex-col gap-3 ">
             <div>
                 <h2 className="font-bold">Our Products</h2>
-                <h3 className="text-subtext"># of products</h3>
+                <h3 className="text-subtext">{filteredList?.length} products</h3>
             </div>
             
             <div className="flex gap-3 relative">

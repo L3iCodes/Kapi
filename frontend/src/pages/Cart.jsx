@@ -3,8 +3,13 @@ import useCart from "../hooks/useCart";
 import CartItemCard from "../components/CartItemCard";
 import Button from "../components/Button";
 import { useMemo, useState } from "react";
+import Modal from "../components/Modal";
+import Checkout from "../components/Checkout";
+import { useEffect } from "react";
 
 export default function Cart(){
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [checkoutInfo, setCheckoutInfo] = useState([])
     const {
         cartQuery, 
         itemSelected, 
@@ -23,10 +28,30 @@ export default function Cart(){
                 onSelect={handleCartSelect}
             />
         ))
-    );
+    ,);
+
+    // Set information for checkout
+    useEffect(() => {
+        setCheckoutInfo(() => {
+            const itemList = cartQuery.data?.filter((_product, index) => itemSelected.includes(index))
+
+            return {
+                items: itemList,
+                subtotal: calculateSelectedTotal().toFixed(2),
+                total: calculateTotal().toFixed(2),
+                tax,
+                deliveryCost,
+            }  
+        })
+    }, [itemSelected, cartQuery.data])
 
     return(
         <div className="flex flex-col h-full gap-3 ">
+            {isModalOpen && (
+                <Modal onClose={() => setIsModalOpen(false)}> 
+                    <Checkout list={checkoutInfo}/> 
+                </Modal>
+            )}
             <div>
                 <h2 className="font-bold">Your Cart</h2>
                 <h3 className="text-subtext">Manage your purchase</h3>
@@ -70,7 +95,12 @@ export default function Cart(){
                                         <h5>₱{calculateTotal().toFixed(2)}</h5>
                                     </div>
 
-                                    <Button className={'!mt-5 !w-full'}><h5>Proceed to Checkout</h5></Button>
+                                    <Button 
+                                        onClick={() => setIsModalOpen(s => !s)}
+                                        className={'!mt-5 !w-full'}
+                                        >
+                                            <h5>Proceed to Checkout</h5>
+                                    </Button>
                                 </>
                             )}
                         </div>

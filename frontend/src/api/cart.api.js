@@ -56,7 +56,6 @@ export async function deleteFromCartAPI(cart_id){
 
 export async function updateItemQtyAPI(cart_id, quantity){
     const token = localStorage.getItem("token");
-    console.log('IN UPDATE API')
 
     try{
         const res = await axios.post(

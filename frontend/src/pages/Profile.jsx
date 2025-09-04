@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react/dist/iconify.js"
 import { useAuth } from "../context/AuthContext"
 import { useState } from "react"
+import OrderHistory from "../components/OrderHistory"
 
 export default function Profile(){
     const { user, handleLogout } = useAuth()
@@ -18,10 +19,10 @@ export default function Profile(){
                 <h3 className="text-subtext">Personalize and view orders</h3>
             </div>
             
-            <div className="flex ">
+            <div className="flex gap-3 h-full">
                 
                 <div className={`flex flex-col border-1 border-accent  p-3 gap-2 rounded-[5px] relative
-                                transition-all ease-in-out duration-100
+                                transition-all ease-in-out duration-100 h-fit
                                 ${!openNav ? 'w-[60px] items-center' : 'w-[200px]'}`}>
                     {/* gradient overlay */}
                     <div className="absolute inset-0 bg-gradient "/>
@@ -105,7 +106,7 @@ export default function Profile(){
 
                         <div 
                             onClick={handleLogout}
-                            className="flex items-center mt-20 w-full justify-center gap-3 border-1 border-accent p-1 rounded-[2px] cursor-pointer hover:bg-accent/50 hover:text-text active:bg-accent">
+                            className="flex items-center mt-20 w-full justify-center gap-3 border-1 border-accent p-1 rounded-[5px] cursor-pointer hover:bg-accent/50 hover:text-text active:bg-accent">
                             <Icon icon="material-symbols:logout-rounded" width="20" height="20" />
                             {openNav && (
                                 <h4>Logout</h4>
@@ -115,9 +116,7 @@ export default function Profile(){
                 </div>
                 
                 {/* Content */}
-                <div>
-
-                </div>
+                {openOrder && (<OrderHistory />)}
             </div>
         </div>
     )

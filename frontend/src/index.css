@@ -50,7 +50,7 @@ body{
 }
 
 .pageWrapper{
-    @apply flex flex-col gap-10 p-5 pb-30 sm:p-5  min-h-[100dvh] w-[100dvw] max-w-[760px] relative
+    @apply flex flex-col gap-10 p-5 pb-30 sm:p-5  h-[100dvh] w-[100dvw] max-w-[760px] relative
 }
 
 

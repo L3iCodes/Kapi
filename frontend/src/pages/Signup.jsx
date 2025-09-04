@@ -8,7 +8,7 @@ export default function Signup(){
 
     return(
         <div className="flex justify-center items-center inset-0 absolute">
-            <div className='flex flex-col w-[90%] min-h-[300px] sm:flex-row gap-5 bg-secondary relative rounded-[5px] border-accent border-1 shadow-sm shadow-black relative'>
+            <div className='flex flex-col w-[90%] min-h-[300px] sm:flex-row gap-5 bg-secondary rounded-[5px] border-accent border-1 shadow-sm shadow-black relative'>
                 {/* gradient overlay */}
                 <div className="absolute inset-0 bg-gradient"/>
                 

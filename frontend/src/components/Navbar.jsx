@@ -77,13 +77,6 @@ function desktopNavigation(navigate, user, handleLogout){
 
             <div className='flex items-center gap-3 text-subtext'>
                 <Icon 
-                    className={'cursor-pointer hover:text-text active:text-subtext'}
-                    icon="material-symbols:search" 
-                    width="15" 
-                    height="15" 
-                /> 
-
-                <Icon 
                     onClick={() => navigate('/cart')}
                     className={'cursor-pointer hover:text-text active:text-subtext'}
                     icon="mdi:cart-outline" 
@@ -91,7 +84,7 @@ function desktopNavigation(navigate, user, handleLogout){
                     /> 
 
                 <Icon 
-                    onClick={handleLogout}
+                    onClick={() => navigate('/profile')}
                     className={'cursor-pointer hover:text-text active:text-subtext'}
                     icon="gg:profile" 
                     width="15" 

@@ -19,6 +19,7 @@ import Signup from './pages/Signup'
 import Product from './pages/Product'
 import ProductInfo from './pages/ProductInfo'
 import Cart from './pages/Cart'
+import Profile from './pages/Profile'
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                                     <Route path='/products' element={<Product />} />
                                     <Route path='/products/:productId' element={<ProductInfo />} />
                                     <Route path='/cart' element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+                                    <Route path='/profile' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                                 </Routes>
                         </ProductProvider>
                     </AuthProvider>

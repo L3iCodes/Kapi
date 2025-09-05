@@ -1,39 +1,41 @@
 import { useState } from "react";
 import UseOrder from "../hooks/UseOrder";
+import OrderCard from "./OrderCard";
 
 export default function OrderHistory(){
     const { userOrderQuery } = UseOrder();
     const [previewItem, setPreviewItem] = useState(null)
 
     return(
-        <div className="flex h-full w-full p-2 gap-3">
+        <div className="flex h-full w-full p-2">
             {/* Order List */}
-            <div className="flex flex-col gap-2 w-full h-full ">
+            <div className="flex flex-col  gap-2 w-full h-full ">
                 <div className="flex items-center gap-2 ">
                     <h3 className="font-bold">Order History</h3>
                 </div>
 
-                <div className="flex gap-2 h-[650px]">
-                    <div className="flex flex-col w-[60%] gap-2 h-full overflow-y-auto">
+                <div className="flex flex-col sm:flex-row gap-2 h-full">
+                    
+                    <div className="flex flex-col w-full h-full sm:w-[60%] sm:h-full gap-2 overflow-y-auto">
                         {userOrderQuery.data && (
                             userOrderQuery.data.map(order => (
-                                <div 
-                                    onClick={() => setPreviewItem(order)}
-                                    key={order.order_id} 
-                                    className="flex justify-between bg-secondary border-1 p-2 border-subtext rounded-[5px] cursor-pointer hover:bg-accent/10 active:bg-accent/50"
-                                    >
-                                        <div>
-                                            <h5>Order #{order.order_id}</h5>
-                                            <h6>{order.items.length} Items</h6>
-                                            <h6 className="mt-3 text-subtext">{order.order_date}</h6>
-                                        </div>
-                                        <h5 className="font-bold text-accent">₱{order.total}</h5>
-                                        <h5 className="border-1 border-accent px-2 h-fit w-fit rounded-[5px]">{order.status}</h5>
-                                </div>
+                                <OrderCard 
+                                    key={order.order_id}
+                                    onPreview={() => setPreviewItem(order)}
+                                    mainText={order.order_id}
+                                    subText={`${order.items.length} Items`}
+                                    date={order.order_date}
+                                    total={order.total}
+                                    status={order.status}
+                                />
                             ))
                         )}
                     </div>
-                    <div className="flex flex-col h-fit w-[40%] bg-secondary border-1 border-accent rounded-[5px] p-2 gap-3">
+                    
+                    <div className={`fixed bottom-25 right-5 flex flex-col  w-fit bg-secondary border-1 border-accent rounded-[5px] p-2 gap-3 shadow-xl  shadow-accent
+                                    sm:w-[40%] sm:static sm:shadow-none
+                                    transition-all ease-in duration-300
+                                    ${previewItem ? 'opacity-100 h-fit' : 'opacity-0 h-0'}`}>
                         <div className="flex justify-between">
                             <h4 className="font-bold">Order Preview</h4>
                             <h5 className="border-1 border-accent px-2 h-fit w-fit rounded-[5px]">{previewItem?.status}</h5>

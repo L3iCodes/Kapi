@@ -3,10 +3,14 @@ import useCart from "../hooks/useCart";
 import Button from "./Button";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
+import { useNotification } from "../context/NotificationContext";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Checkout({ list, selectedItems=null, onSuccess }){ 
+    const navigate = useNavigate();
     const { checkoutMutation, cartQuery, deleteItemutation } = useCart()
+    const {setNotificationMessage} = useNotification()
     const { user } = useAuth();
     console.log(user)
     
@@ -28,7 +32,7 @@ export default function Checkout({ list, selectedItems=null, onSuccess }){
             onSuccess();
         },
         onError: (error) => {
-            toast.error('Failed to place order');
+            setNotificationMessage('Failed to place order');
         }
     });
     
@@ -47,7 +51,9 @@ export default function Checkout({ list, selectedItems=null, onSuccess }){
                         <h4 className="text-text font-bold">Customer Information</h4>
                         <h4 className="font-medium">{user.name}</h4>
                         <h5>{user.email}</h5>
-                        <h5>0961 365 5723</h5>
+                        <h5>{user.contact || 
+                            <span onClick={() => navigate('/profile/user')} className="text-red-500 hover:text-accent active:text-red-500 cursor-pointer">Setup Contact Information</span>}
+                        </h5>
                     </div>
                 </div>
 
@@ -55,7 +61,12 @@ export default function Checkout({ list, selectedItems=null, onSuccess }){
                     <Icon className={'text-text'} icon="bitcoin-icons:address-book-filled" width="23" height="23" />
                     <div>
                         <h4 className="text-text font-bold">Shipping Address</h4>
-                        <h5>Rayala St., Iraya Sur, Oas Albay</h5>
+                        
+                        {!user.address.province && !user.postal_code 
+                            ? <h5 onClick={() => navigate('/profile/address')} className="text-red-500 hover:text-accent active:text-red-500 cursor-pointer">Setup Address</h5>
+                            : <h5>{user.address.full_address}</h5>
+                        }
+                        
                     </div>
                 </div>
 
@@ -111,7 +122,13 @@ export default function Checkout({ list, selectedItems=null, onSuccess }){
                 </div>
 
                 <Button 
-                    onClick={() => handleCheckout.mutate(list)}
+                    onClick={() => {
+                        if (!user.address.province || !user.address.postal_code || !user.contact){
+                            setNotificationMessage('Please setup shipping information and Contact Information');
+                            return
+                        };
+                        handleCheckout.mutate(list);
+                    }}
                     variant="primary" 
                     className={'self-end mt-auto'}
                     >

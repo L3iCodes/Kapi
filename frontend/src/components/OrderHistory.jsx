@@ -56,7 +56,7 @@ export default function OrderHistory(){
                                     <h5 className="font-medium">Items:</h5>
 
                                     {previewItem?.items.map(item => (
-                                        <div>
+                                        <div key={item.product_id}>
                                             <h5 className="text-subtext">{item.product_name}</h5>
                                             <h5 className="text-accent">₱{item.price} x {item.quantity}</h5>
                                         </div>

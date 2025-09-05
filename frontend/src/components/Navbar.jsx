@@ -84,7 +84,7 @@ function desktopNavigation(navigate, user, handleLogout){
                     /> 
 
                 <Icon 
-                    onClick={() => navigate('/profile')}
+                    onClick={() => navigate('/profile/orders')}
                     className={'cursor-pointer hover:text-text active:text-subtext'}
                     icon="gg:profile" 
                     width="15" 

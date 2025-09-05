@@ -72,7 +72,7 @@ function MobileNav({
     return(
         <div className="sm:hidden flex w-full border-1 border-accent justify-between p-3 gap-2 rounded-[5px] text-subtext relative">
             {/* gradient overlay */}
-                <div className="absolute inset-0 bg-gradient "/>
+            <div className="absolute inset-0 bg-gradient "/>
             
             <div 
                 onClick={() => {

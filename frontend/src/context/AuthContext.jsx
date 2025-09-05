@@ -27,7 +27,7 @@ export function AuthProvider({children}){
                 setIsAuthenticated(true);
                 setIsLoading(false);
             },
-            onError: () => {
+            onError: (error) => {
                 localStorage.removeItem('token');
                 setUser(null);
                 setToken('');

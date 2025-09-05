@@ -67,21 +67,39 @@ export const login = async (req, res) => {
 
         const user_info = {
             user_id: user[0].user_id,
-            name: user[0].name,
+            first_name: user[0].first_name,
+            last_name: user[0].last_name,
             email: user[0].email,
+            contact: user[0].contact_number, 
             role: user[0].role,
+            address: {
+                house_number: user[0].house_number,
+                street: user[0].street,
+                barangay: user[0].barangay,
+                municipality_city: user[0].municipality_city,
+                province: user[0].province,
+                region: user[0].region,
+                postal_code: user[0].postal_code,
+                full_address: `${user[0].house_number || ''} ${user[0].street || ''}, ${user[0].barangay || ''}, ${user[0].municipality_city || ''}, ${user[0].province || ''} ${user[0].postal_code || ''}`.replace(/\s+/g, ' ').trim()
+            }
         }
+
+        const minimal_user_info = {
+            user_id: user[0].user_id,
+            email: user[0].email,
+            role: user[0].role
+        };
         
         // Create Access Token
         const access_token = jwt.sign(
-            user_info,
+            minimal_user_info,
             SECRET,
             {expiresIn: '1d'}
         )
 
         // Create Refresh Token
         const refresh_token = jwt.sign(
-            user_info,
+           minimal_user_info,
             SECRET,
             {expiresIn: '7d'}
         )
@@ -102,10 +120,10 @@ export const login = async (req, res) => {
 
 
 // Refresh authentication
-export const refresh_auth = (req, res) => {
+export const refresh_auth = async (req, res) => {
     const cookies = req.cookies;
 
-    // Check if there is a refresg token
+    // Check if there is a refresh token
     if(!cookies?.jwt){
         return res.status(401).json({success:false, message: 'No refresh token found'});
     };
@@ -114,19 +132,53 @@ export const refresh_auth = (req, res) => {
     const SECRET = process.env.SECRET;
 
     // Verify refresh token
-    jwt.verify(refresh_token, SECRET, (err,decoded) => {
+    jwt.verify(refresh_token, SECRET, async (err,decoded) => {
         if (err) return res.status(401).json({success:false, message: 'Invalid refresh token'});
-
-        const refresh_user = {user_id: decoded.user_id, name: decoded.name, email: decoded.email, role: decoded.role}
         
+        const [user] = await pool.query(
+                'SELECT * FROM kapi_database.users WHERE user_id = ?',
+                [decoded.user_id]
+            );
+
+        if (user.length < 1) {
+                return res.status(401).json({success: false, message: 'User not found'});
+            }
+
+        // Fresh complete user data for response
+        const user_info = {
+            user_id: user[0].user_id,
+            first_name: user[0].first_name,
+            last_name: user[0].last_name,
+            email: user[0].email,
+            contact: user[0].contact_number, 
+            role: user[0].role,
+            address: {
+                house_number: user[0].house_number,
+                street: user[0].street,
+                barangay: user[0].barangay,
+                municipality_city: user[0].municipality_city,
+                province: user[0].province,
+                region: user[0].region,
+                postal_code: user[0].postal_code,
+                full_address: `${user[0].house_number || ''} ${user[0].street || ''}, ${user[0].barangay || ''}, ${user[0].municipality_city || ''}, ${user[0].province || ''} ${user[0].postal_code || ''}`.replace(/\s+/g, ' ').trim()
+            }
+        };
+
+        // Minimal data for new access token
+        const minimal_user_info = {
+            user_id: user[0].user_id,
+            email: user[0].email,
+            role: user[0].role
+        };
+
         // Generate new access token
         const access_token = jwt.sign(
-            refresh_user,
+            minimal_user_info,
             SECRET,
             {expiresIn: '15m'}
         );
 
-        return res.json({ access_token, user:refresh_user });
+        return res.json({ access_token, user:user_info });
     });
 }
 

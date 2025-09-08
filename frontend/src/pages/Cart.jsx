@@ -35,6 +35,7 @@ export default function Cart(){
     useEffect(() => {
         setCheckoutInfo(() => {
             const itemList = cartQuery.data?.filter((_product, index) => itemSelected.includes(index))
+            
 
             return {
                 items: itemList,
@@ -45,6 +46,8 @@ export default function Cart(){
             }  
         })
     }, [itemSelected, cartQuery.data])
+
+    console.log(checkoutInfo)
 
     return(
         <div className="flex flex-col h-full gap-3 ">

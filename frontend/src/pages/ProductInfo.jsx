@@ -7,23 +7,44 @@ import { useProduct } from "../context/ProductContext";
 import { useEffect, useState } from "react";
 import QuantityCounter from "../components/QuantityCounter";
 import useCart from "../hooks/useCart";
+import Modal from "../components/Modal";
+import Checkout from "../components/Checkout";
 
 export default function ProductInfo(){
     const location = useLocation();
     const product = location.state?.product; //Retrieve product info in state
     const {productList} = useProduct();
-    const { addCartMutation } = useCart();
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const { addCartMutation, checkoutMutation, tax, deliveryCost } = useCart();
     const {filteredList, onFilter} = useFilter(productList);
     const [numItem, setNumItem] = useState(1);
+    const checkOutItem ={
+        items: [{...product, quantity: numItem}],
+        subtotal: product.price * numItem,
+        total: (product.price * numItem) + tax+ deliveryCost,
+        tax,
+        deliveryCost
+    }    
 
+    // Set default filter
     useEffect(() => {
          if (productList && product?.category) {
             onFilter('0,20000', [product.category.toLowerCase()]);
         };
     }, [productList, onFilter]);
 
+    
     return(
         <div className="flex flex-col w-full gap-20">
+            {isModalOpen && (
+                <Modal onClose={() => setIsModalOpen(false)}> 
+                    <Checkout 
+                        list={checkOutItem} 
+                        onSuccess={() => {
+                            setIsModalOpen(false);
+                        }}/> 
+                </Modal>
+            )}
             
             <div className="flex flex-col sm:flex-row gap-2">
                 {/* Product Info */}
@@ -44,7 +65,7 @@ export default function ProductInfo(){
 
                     {/* Buttons */}
                     <div className="flex gap-5">
-                        <Button className={'!w-[50%] sm:!w-fit'}><h3>Buy Now</h3></Button>
+                        <Button onClick={() => setIsModalOpen(s => !s)} className={'!w-[50%] sm:!w-fit'}><h3>Buy Now</h3></Button>
                         <Button 
                             onClick={() => addCartMutation.mutate(
                                 {productId:product.product_id, 

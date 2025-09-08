@@ -12,7 +12,6 @@ export default function Checkout({ list, selectedItems=null, onSuccess }){
     const { checkoutMutation, cartQuery, deleteItemutation } = useCart()
     const {setNotificationMessage} = useNotification()
     const { user } = useAuth();
-    console.log(user)
     
     const handleCheckout = useMutation({
         mutationFn: checkoutMutation.mutateAsync, // Use the original checkout function
@@ -32,6 +31,7 @@ export default function Checkout({ list, selectedItems=null, onSuccess }){
             onSuccess();
         },
         onError: (error) => {
+            console.log(error)
             setNotificationMessage('Failed to place order');
         }
     });

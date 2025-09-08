@@ -1,7 +1,7 @@
 # Kapi E-Commerce
 
 This repository is a practice full-stack project for building an e-commerce platform called Kapi.
-The goal is to simulate an online store experience and practice working with React (frontend), Node.js/Express (backend), and MySQL/MongoDB (database).
+The goal is to simulate an online store experience and practice working with React (frontend), Node.js/Express (backend), and MySQL (database).
 
 Project Description
 

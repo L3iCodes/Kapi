@@ -1,20 +1,25 @@
+import { useNavigate } from 'react-router-dom'
 import coffeeBeans from '../assets/CoffeeBeans.png'
 import groundCoffee from '../assets/GroundCoffee.png'
 import instantCoffee from '../assets/InstantCoffee.png'
 import teaSelection from '../assets/tea.png'
 
 export default function ProductCategory(){
+    const navigate = useNavigate();
+
     return(
         <div className="flex flex-col w-full gap-3">
             <div className="flex w-full gap-3 flex-wrap sm:flex-nowrap">
                 <CategoryCard
-                name={'Coffee Beans'}
-                description={'Freshly roasted, whole beans for the perfect grind.'}
-                className={'w-full sm:w-[40%]'}
+                    onClick={() => navigate('/products/coffee beans')}
+                    name={'Coffee Beans'}
+                    description={'Freshly roasted, whole beans for the perfect grind.'}
+                    className={'w-full sm:w-[40%]'}
                 ><img src={coffeeBeans} className='absolute -bottom-10 left-0 sm:-bottom-0'/>
                 </CategoryCard>
 
                 <CategoryCard
+                    onClick={() => navigate('/products/ground coffee')}
                     name={'Ground Coffee'}
                     description={'Convenient and flavorful — ready to brew anytime.'}
                     className={'w-[calc(50%-6px)] sm:w-[30%]'}
@@ -23,6 +28,7 @@ export default function ProductCategory(){
 
                 <CategoryCard
                     name={'Specialty Coffee'}
+                    onClick={() => navigate('/products/specialty coffee')}
                     description={'Freshly roasted, whole beans for the perfect grind.'}
                     className={'w-[calc(50%-6px)] sm:w-[30%]'}
                 >
@@ -31,6 +37,7 @@ export default function ProductCategory(){
 
             <div className="flex w-full gap-3 flex-wrap sm:flex-nowrap">
                 <CategoryCard
+                    onClick={() => navigate('/products/instant coffee')}
                     name={'Instant Coffee'}
                     description={'Quick, rich, and satisfying — just add hot water.”'}
                     className={'w-[calc(50%-6px)] sm:w-[30%]'}
@@ -39,6 +46,7 @@ export default function ProductCategory(){
 
                 <CategoryCard
                     name={'Accessories'}
+                    onClick={() => navigate('/products/accessories')}
                     description={'Mugs, brewers, and tools to elevate your coffee & tea rituals.'}
                     className={'w-[calc(50%-6px)] sm:w-[30%]'}
                 >
@@ -46,6 +54,7 @@ export default function ProductCategory(){
 
                 <CategoryCard
                     name={'Tea Selection'}
+                    onClick={() => navigate('/products/tea selection')}
                     description={'Soothing teas from classic Earl Grey to calming herbal blends.'}
                     className={'w-full sm:w-[40%]'}
                     isTea={true}
@@ -59,7 +68,7 @@ export default function ProductCategory(){
 
 function CategoryCard({name, description, className, isTea = false, onClick, children}){
     return(
-        <div className={`${className} flex flex-col bg-secondary h-[190px] p-3 rounded-[5px] overflow-hidden relative
+        <div onClick={onClick} className={`${className} flex flex-col bg-secondary h-[190px] p-3 rounded-[5px] overflow-hidden relative
                         transition-transform cursor-pointer
                         hover:scale-103 hover:bg-accent/30 active:bg-accent/50`}>
             {/* gradient overlay */}

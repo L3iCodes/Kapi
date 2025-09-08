@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react";
 import { memo } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-function Filter({ className, onFilter }){
-    const [categories, setCategories] = useState([]);
-    const [priceRange, setPriceRange] = useState('0,20000');
+function Filter({ className, onFilter, categories, setCategories, priceRange, setPriceRange }){
+    const navigate = useNavigate()
     
     // Handles category filter selection
     const handleCategoryChange = useCallback((category) => (e) => {
@@ -15,6 +15,8 @@ function Filter({ className, onFilter }){
         }
         setCategories(newCategories);
         onFilter(priceRange, newCategories);
+
+        navigate(`/products/${newCategories.join(",")}`);
     }, [categories, priceRange, onFilter]);
 
     // Handle Price Range

@@ -36,7 +36,7 @@ function App() {
                                     <Route path='/' element={<Home />} />
                                     <Route path='/login' element={<Login />} />
                                     <Route path='/signup' element={<Signup />} />
-                                    <Route path='/products' element={<Product />} />
+                                    <Route path='/products/:category?' element={<Product />} />
                                     <Route path='/products/:productId' element={<ProductInfo />} />
                                     <Route path='/cart' element={<ProtectedRoute><Cart /></ProtectedRoute>} />
                                     <Route path='/profile/:tab?' element={<ProtectedRoute><Profile /></ProtectedRoute>} />

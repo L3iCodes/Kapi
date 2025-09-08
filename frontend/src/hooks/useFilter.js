@@ -3,7 +3,9 @@ import { useCallback, useState, useEffect, useMemo } from "react";
 export default function useFilter(productList){
     const [basedFilter, setBasedFilter] = useState(productList)
     const [filteredList, setFilteredList] = useState(productList);
-
+    const [categories, setCategories] = useState([]);
+    const [priceRange, setPriceRange] = useState('0,20000');
+    
     // Update filtered list when productList changes
     useEffect(() => {
         setBasedFilter(productList);
@@ -70,5 +72,5 @@ export default function useFilter(productList){
         setFilteredList(prev => handleSorting(prev, order))
     }, [handleSorting]);
 
-    return({  basedFilter, filteredList, onFilter, onSort, onSearch})
+    return({  categories, setCategories, priceRange, setPriceRange, basedFilter, filteredList, onFilter, onSort, onSearch})
 };

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Filter from "../components/Filter";
 import ProductCard from "../components/ProductCard";
 import Search from "../components/Search";
@@ -6,11 +6,21 @@ import Sort from "../components/Sort";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useProduct } from "../context/ProductContext";
 import useFilter from "../hooks/useFilter";
+import { useParams } from "react-router-dom";
 
 export default function Product(){
+    const params = useParams();
     const { productList } = useProduct();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const { filteredList, onFilter, onSort, onSearch } = useFilter(productList);
+    const { filteredList, onFilter, onSort, onSearch, categories, setCategories, priceRange, setPriceRange } = useFilter(productList);
+
+    // Set initial category selection (happens when user select a category in the home page)
+    useEffect(() => {
+        if(!productList || !params.category) return;
+        const newCategory = params.category.split(',')
+        setCategories(newCategory);
+        onFilter(priceRange, newCategory)
+    }, [onFilter, productList])
 
     const toggleFilter = useCallback(() => {
         setIsFilterOpen(s => !s);
@@ -36,6 +46,10 @@ export default function Product(){
             <div className="flex gap-3 relative">
                 {/* Filter */}
                 <Filter 
+                    categories={categories}
+                    setCategories={setCategories}
+                    priceRange={priceRange}
+                    setPriceRange={setPriceRange}
                     onFilter={onFilter}
                     className={`hidden sm:flex !sticky top-15 self-start`}
                 />

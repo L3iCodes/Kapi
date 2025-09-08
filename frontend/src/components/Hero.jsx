@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import beans from '../assets/Beans.png'
 import mug from '../assets/CoffeeMug.png'
 import Button from './Button';
 
 export default function Hero(){
+    const navigate = useNavigate();
+
     return(
         <div className='w-full flex h-[330px] p-5 relative overflow-hidden rounded-[5px]
                         bg-secondary items-center'>
@@ -15,7 +18,7 @@ export default function Hero(){
                     <span className='text-accent'>Perfected</span>
                 </h1>
                 <h4 className='text-subtext'>Discover premium coffee and tea that fit your lifestyle.</h4>
-                <Button className={'mt-5'}>Browse Now</Button>
+                <Button onClick={() => navigate('/products')} className={'mt-5'}>Browse Now</Button>
             </div>
 
             <img 

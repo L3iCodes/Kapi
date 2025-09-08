@@ -68,6 +68,10 @@ export default function Product(){
                                 <h5>Filter</h5>
                                 {isFilterOpen && (
                                     <Filter 
+                                        categories={categories}
+                                        setCategories={setCategories}
+                                        priceRange={priceRange}
+                                        setPriceRange={setPriceRange}
                                         onFilter={onFilter}
                                         className={`absolute bg-secondary top-11 left-0 z-100 drop-shadow-2xl shadow-2xl shadow-black`}
                                     />

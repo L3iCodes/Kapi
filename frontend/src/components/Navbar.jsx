@@ -43,7 +43,7 @@ function mobileNavigation(navigate, user, currentPage){
     return(
         <>
             <div className='flex p-5 h-full w-full items-center sm:hidden'>
-                <h3 className='font-bold tracking-widest'>KAPI</h3>
+                <h3 onClick={() => navigate('/')} className='font-bold tracking-widest cursor-pointer hover:text-accent active:text-text'>KAPI</h3>
                 <Icon 
                     onClick={() => setOpenNav(true)}
                     className={'ml-auto cursor-pointer'} 
@@ -105,7 +105,7 @@ function mobileNavigation(navigate, user, currentPage){
 function desktopNavigation(navigate, user, currentPage){
     return(
         <div className='hidden p-5 h-full w-full items-center sm:flex'>
-            <h3 className='font-bold tracking-widest'>KAPI</h3>
+            <h3 onClick={() => navigate('/')} className='font-bold tracking-widest cursor-pointer hover:text-accent active:text-text'>KAPI</h3>
 
             <ul className='flex items-center w-full h-full justify-center gap-5 text-subtext font-medium'>
                 {navigateItems.map(item => (

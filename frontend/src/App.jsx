@@ -11,6 +11,8 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProtectedRoute from './components/ProtectedRoute'
 import Notification from './components/Notification'
+import ScrollToTop from './components/ScrollToTop'
+
 
 // Pages
 import Home from './pages/Home'
@@ -22,12 +24,14 @@ import Cart from './pages/Cart'
 import Profile from './pages/Profile'
 
 
+
 function App() {
     const {showNotification} = useNotification();
 
     return (
         <div className='pageWrapper'>
                 <Router>
+                    <ScrollToTop />
                     <AuthProvider>
                         <ProductProvider>
                                 <Navbar />

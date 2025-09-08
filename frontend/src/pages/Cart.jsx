@@ -68,10 +68,11 @@ export default function Cart(){
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
                 <div className="flex flex-col w-full sm:w-[90%] bg-secondary gap-2 border-1 border-subtext rounded-[5px] p-2">
+                    {ItemCards.length<1 && (<h4 className="text-accent">No item in cart</h4>)}
                     {ItemCards}
                 </div>
 
-                <div className="flex flex-col w-full h-fit absolute bottom-25 left-0 sm:w-[40%] border-1 border-accent  rounded-[5px] p-2 sm:relative sm:bottom-0">
+                <div className="flex flex-col w-full h-fit absolute bottom-0 left-0 sm:w-[40%] border-1 border-accent  rounded-[5px] p-2 sm:relative sm:bottom-0">
                     {/* gradient overlay */}
                     <div className="absolute inset-0 bg-gradient "/>
                     

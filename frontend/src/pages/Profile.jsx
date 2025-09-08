@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import OrderHistory from "../components/OrderHistory";
 import ProfileSetting from "../components/ProfileSetting";
+import AddressSetting from "../components/AddressSettiing";
 import { useNavigate, useParams } from "react-router-dom";
 
 const NAV_ITEMS = [
@@ -48,6 +49,7 @@ export default function Profile() {
             {/* Content */}
             {tab === "orders" && <OrderHistory />}
             {tab === "user" && <ProfileSetting />}
+            {tab === "address" && <AddressSetting />}
             {/* TODO: Add Address + Preferences components */}
         </div>
         </div>

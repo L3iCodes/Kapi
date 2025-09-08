@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import UseOrder from "../hooks/UseOrder";
 import OrderCard from "./OrderCard";
 
 export default function OrderHistory(){
     const { userOrderQuery } = UseOrder();
     const [previewItem, setPreviewItem] = useState(null)
+
+    const orderCards = useMemo(() => {
+        return userOrderQuery.data?.map(order => (
+            <OrderCard 
+                key={order.order_id}
+                onPreview={() => setPreviewItem(order)}
+                mainText={order.order_id}
+                subText={`${order.items.length} Items`}
+                date={order.order_date}
+                total={order.total}
+                status={order.status}
+            />
+        ));
+    }, [userOrderQuery.data]);
 
     return(
         <div className="flex h-full w-full p-2">
@@ -17,19 +31,8 @@ export default function OrderHistory(){
                 <div className="flex flex-col sm:flex-row gap-2 h-full">
                     
                     <div className="flex flex-col w-full h-full sm:w-[60%] sm:h-full gap-2 overflow-y-auto">
-                        {userOrderQuery.data && (
-                            userOrderQuery.data.map(order => (
-                                <OrderCard 
-                                    key={order.order_id}
-                                    onPreview={() => setPreviewItem(order)}
-                                    mainText={order.order_id}
-                                    subText={`${order.items.length} Items`}
-                                    date={order.order_date}
-                                    total={order.total}
-                                    status={order.status}
-                                />
-                            ))
-                        )}
+                        {userOrderQuery.isSuccess && userOrderQuery.data.length === 0 && (<h4 className="text-accent text-center my-auto">No Orders</h4>)}
+                        {orderCards}
                     </div>
                     
                     <div className={`fixed bottom-25 right-5 flex flex-col  w-fit bg-secondary border-1 border-accent rounded-[5px] p-2 gap-3 shadow-xl  shadow-accent

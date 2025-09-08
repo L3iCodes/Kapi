@@ -68,7 +68,7 @@ export default function Cart(){
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
                 <div className="flex flex-col w-full sm:w-[90%] bg-secondary gap-2 border-1 border-subtext rounded-[5px] p-2">
-                    {!cartQuery?.data.length && (<h4 className="text-accent">No item in cart</h4>)}
+                    {cartQuery.isSuccess && cartQuery.data.length === 0 && (<h4 className="text-accent text-center my-auto">No item in cart</h4>)}
                     {ItemCards}
                 </div>
 

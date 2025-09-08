@@ -21,7 +21,7 @@ export default function Product(){
         const newCategory = params.category.split(',')
         setCategories(newCategory);
         onFilter(priceRange, newCategory)
-    }, [onFilter, productList])
+    }, [onFilter, productList, params.category])
 
     const toggleFilter = useCallback(() => {
         setIsFilterOpen(s => !s);

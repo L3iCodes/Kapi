@@ -22,6 +22,8 @@ import Product from './pages/Product'
 import ProductInfo from './pages/ProductInfo'
 import Cart from './pages/Cart'
 import Profile from './pages/Profile'
+import Contact from './pages/Contact'
+import About from './pages/About'
 
 
 
@@ -44,6 +46,8 @@ function App() {
                                     <Route path='/products/item/:productId' element={<ProductInfo />} />
                                     <Route path='/cart' element={<ProtectedRoute><Cart /></ProtectedRoute>} />
                                     <Route path='/profile/:tab?' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                                    <Route path='/contact' element={<Contact />} />
+                                    <Route path='/about' element={<About />} />
                                 </Routes>
                         </ProductProvider>
                     </AuthProvider>

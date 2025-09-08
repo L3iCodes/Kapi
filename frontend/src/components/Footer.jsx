@@ -1,8 +1,9 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Footer(){
     const location = useLocation();
     const pathName = location.pathname;
+    const navigate = useNavigate()
 
     return(
         pathName != '/login' && pathName != '/signup' && (
@@ -22,18 +23,18 @@ export default function Footer(){
 
                 {/* Shop */}
                 <div className="flex flex-col ">
-                    <h5 className="text-subtext font-bold">Shop</h5>
-                    <h5 className="text-subtext hover:text-text active:text-subtext cursor-pointer">Coffee Beans</h5>
-                    <h5 className="text-subtext hover:text-text active:text-subtext cursor-pointer">Tea Selection</h5>
-                    <h5 className="text-subtext hover:text-text active:text-subtext cursor-pointer">Accessories</h5>
+                    <h5 onClick={() => navigate('/products')} className="text-subtext font-bold">Shop</h5>
+                    <h5 onClick={() => navigate('/products/coffee beans')} className="text-subtext hover:text-text active:text-subtext cursor-pointer">Coffee Beans</h5>
+                    <h5 onClick={() => navigate('/products/tea selection')} className="text-subtext hover:text-text active:text-subtext cursor-pointer">Tea Selection</h5>
+                    <h5 onClick={() => navigate('/products/accessories')} className="text-subtext hover:text-text active:text-subtext cursor-pointer">Accessories</h5>
                 </div>
 
                 {/* Company */}
                 <div className="flex flex-col">
                     <h5 className="text-subtext font-bold">Company</h5>
-                    <h5 className="text-subtext hover:text-text active:text-subtext cursor-pointer">About Us</h5>
-                    <h5 className="text-subtext hover:text-text active:text-subtext cursor-pointer">Contact</h5>
-                    <h5 className="text-subtext hover:text-text active:text-subtext cursor-pointer">Profile</h5>
+                    <h5 onClick={() => navigate('/about')} className="text-subtext hover:text-text active:text-subtext cursor-pointer">About Us</h5>
+                    <h5 onClick={() => navigate('/contact')} className="text-subtext hover:text-text active:text-subtext cursor-pointer">Contact</h5>
+                    <h5 onClick={() => navigate('/profile')} className="text-subtext hover:text-text active:text-subtext cursor-pointer">Profile</h5>
                 </div>
 
                 {/* Support */}

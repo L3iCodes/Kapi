@@ -24,6 +24,13 @@ export default function ProfileSetting(){
     const handleInfoChange = (e) => {
         e.preventDefault()
         const formData = new FormData(e.target)
+
+        // Check if email is valid
+        const email = formData.get("email");
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+            alert("Please enter a valid email address");
+            return;
+        }
         
         updateUserMutation.mutate({
             first_name: formData.get('first_name'),
@@ -113,6 +120,7 @@ export default function ProfileSetting(){
                             placeholder="Your email"
                             value={userInfo.email}
                             required={true}
+                            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                             onChange={(e) => {
                                 setUserInfo({...userInfo, email:e.target.value})
                             }}

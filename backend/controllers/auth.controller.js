@@ -17,23 +17,18 @@ const pool = mysql.createPool({
 
 // Account Creation
 export const create_account = async (req,res) => {
-    const {name, email, password} = req.body; // Account information object
+    const {first_name, last_name, email, password} = req.body; // Account information object
 
     try{
         const hashed_password = await bcrypt.hash(password, 10);
         
         // Insert new user into the DB
         const [result] = await pool.query(
-            'INSERT INTO kapi_database.users (name, email, password) VALUE (?,?,?)',
-            [name, email, hashed_password]
+            'INSERT INTO kapi_database.users (first_name, last_name, email, password) VALUE (?,?,?,?)',
+            [first_name, last_name, email, hashed_password]
         );
 
         // Create cart for the user
-        await pool.query(   
-            'INSERT INTO kapi_database.carts (user_id) VALUE (?)',
-            [result.insertId]
-        );
-
         return res.status(201).json({success: true, message:'Succesfully Created Acccount', result});
 
     }catch(error){

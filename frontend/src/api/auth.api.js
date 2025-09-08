@@ -20,6 +20,24 @@ export async function login(email, password){
     }
 }
 
+export async function create_account(first_name, last_name, email, password){
+
+    try{
+        const res = await axios.post(
+            `${BACKEND_URL}/api/auth/create_account`,
+            {first_name, last_name, email, password},
+            {
+                headers: {"Content-Type": "application/json"},
+                withCredentials: true
+            }
+        );
+
+        return res.data;
+    }catch(error){
+        throw new Error(error.response.data.message)
+    }
+}
+
 export async function refresh(){
     try{
         const res = await axios.get(

@@ -52,7 +52,7 @@ export default function QuantityCounter( {baseCount=1, stock, onStock, className
                 />
             </div>
 
-            <h5 className="text-subtext">{stock} stocks remaining</h5>
+            <h5 className="text-subtext">{stock>0 ? `${stock} stocks remaining`: 'Unavailable'} </h5>
         </div>
     )
 }

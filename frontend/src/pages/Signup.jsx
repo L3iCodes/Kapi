@@ -2,9 +2,32 @@ import { Icon } from '@iconify/react'
 import mug from '../assets/CoffeeMug.png'
 import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
+import useAuthAPI from "../hooks/useAuthAPI";
+import { useNotification } from "../context/NotificationContext";
 
 export default function Signup(){
     const navigate = useNavigate()
+    const {setNotificationMessage} = useNotification();
+    const {signUpMutation} = useAuthAPI();
+
+    const handleSignUp = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        const newAccount = {
+            first_name: formData.get('first_name'),
+            last_name: formData.get('last_name'),
+            email: formData.get('email'),
+            password: formData.get('password'),
+        }
+        
+        signUpMutation.mutate(newAccount, {
+            onSuccess: () => {
+                setNotificationMessage('Account Created');
+                e.target.reset();
+            }
+        })
+    }
 
     return(
         <div className="flex justify-center items-center inset-0 absolute">
@@ -19,7 +42,7 @@ export default function Signup(){
                     </div>
                 </div>
                 
-                <form className='flex flex-col gap-5 w-full mt-auto mb-auto p-5 z-10'>
+                <form onSubmit={handleSignUp} className='flex flex-col gap-5 w-full mt-auto mb-auto p-5 z-10'>
                     <div className='flex w-full gap-2 text-[12px]'>
                         <div className='w-full'>
                             <label htmlFor='first_name'>First Name</label>
@@ -28,16 +51,18 @@ export default function Signup(){
                                 name='first_name' 
                                 placeholder='Jane' 
                                 className='w-full'
+                                required={true}
                             />
                         </div>
                         
                         <div className='w-full'>
-                            <label htmlFor='last_name'>First Name</label>
+                            <label htmlFor='last_name'>Last Name</label>
                             <input 
                                 type='text' 
                                 name='last_name' 
                                 placeholder='Doe' 
                                 className='w-full'
+                                required={true}
                             />
                         </div>
                     
@@ -46,24 +71,36 @@ export default function Signup(){
                     <div className='w-full text-[12px]'>
                         <label htmlFor='email'>Email</label>
                         <input 
-                            type='password' 
+                            type='email' 
                             name='email' 
                             placeholder='janedoe@gmail.com' 
+                            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                             className='w-full'
+                            required={true}
                         />
                     </div>
 
                     <div className='w-full text-[12px]'>
                         <label htmlFor='email'>Password</label>
                         <input 
-                            type='password' 
-                            name='email' 
+                            type='text' 
+                            name='password' 
                             placeholder='Your password' 
                             className='w-full'
+                            required={true}
                         />
                     </div>
 
-                    <Button className='!w-full mt-5'>Create Account</Button>
+                    {signUpMutation.isError && (
+                        <h6 className='-mt-2 self-end'>{signUpMutation.error.message}</h6>
+                    )}
+
+                    <Button 
+                        type={'submit'} 
+                        disabled={signUpMutation.isPending ? true : false} 
+                        className={`!w-full mt-5 ${signUpMutation.isPending && ('bg-secondary')}`}
+                        >{signUpMutation.isPending ? 'Creating Account...' : 'Create Account'}
+                    </Button>
 
                     <h6 className='self-center'>Already have an account? 
                         <span 

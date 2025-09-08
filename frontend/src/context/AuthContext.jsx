@@ -11,7 +11,7 @@ export function AuthProvider({children}){
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const { loginMutation, refreshMutation, logoutMutation } = useAuthAPI();
+    const { loginMutation, refreshMutation, logoutMutation, signUpMutation } = useAuthAPI();
 
     // On mount, attempt to refresh token if possbile.
     useEffect(() => {

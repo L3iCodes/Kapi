@@ -65,7 +65,13 @@ export default function ProductInfo(){
 
                     {/* Buttons */}
                     <div className="flex gap-5">
-                        <Button onClick={() => setIsModalOpen(s => !s)} className={'!w-[50%] sm:!w-fit'}><h3>Buy Now</h3></Button>
+                        <Button 
+                            onClick={() => setIsModalOpen(s => !s)} 
+                            className={'!w-[50%] sm:!w-fit'}
+                            disabled={product.stock > 0 ? false : true}
+                            >
+                                <h3>{product.stock > 0 ? 'Buy Now' : 'Unavailable'}</h3>
+                            </Button>
                         <Button 
                             onClick={() => addCartMutation.mutate(
                                 {productId:product.product_id, 
@@ -74,8 +80,9 @@ export default function ProductInfo(){
                             )}
                             variant="secondary" 
                             className={'!w-[50%] sm:!w-fit'}
+                            disabled={product.stock > 0 ? false : true}
                         >
-                                <h3>Add to Cart</h3>
+                                <h3>{product.stock > 0 ? 'Add to Cart' : 'Unavailable'}</h3>
                         </Button>
                     </div>
 

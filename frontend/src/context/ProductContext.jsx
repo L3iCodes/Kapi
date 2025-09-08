@@ -14,7 +14,8 @@ export function ProductProvider({ children }){
     }, [getProductsQuery.isSuccess, getProductsQuery.data]);
  
     const value = {
-        productList
+        productList,
+        getProductsQuery
     }
 
     return(

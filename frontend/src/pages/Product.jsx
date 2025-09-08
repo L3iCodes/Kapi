@@ -7,10 +7,11 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useProduct } from "../context/ProductContext";
 import useFilter from "../hooks/useFilter";
 import { useParams } from "react-router-dom";
+import ProductCardLoadingList from "../components/ProductCardLoading";
 
 export default function Product(){
     const params = useParams();
-    const { productList } = useProduct();
+    const { productList, getProductQuery } = useProduct();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const { filteredList, onFilter, onSort, onSearch, categories, setCategories, priceRange, setPriceRange } = useFilter(productList);
 
@@ -84,7 +85,10 @@ export default function Product(){
                     
 
                     <div className="w-full grid grid-cols-2 sm:grid-cols-3 gap-5">
-                        {productCards}
+                        {getProductQuery?.isPending 
+                            ? (<ProductCardLoadingList count={8} />)
+                            : (productCards)
+                        }
                     </div>
                 </div>
             </div>

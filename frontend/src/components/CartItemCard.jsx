@@ -18,7 +18,7 @@ export default function CartItemCard({ index, product, onSelect }){
     
     return(
         <div className="flex items-center border-1 gap-2 bg-primary rounded-[5px] border-accent p-2 ">
-            <input type="checkbox" onChange={(e) => onSelect(e,index)}/>
+            <input type="checkbox" onChange={(e) => onSelect(e,index)} disabled={product.stock>0 ? false : true}/>
             
             <div onClick={handleNavigate} className='h-[60px] border-[0.5px] border-accent bg-secondary aspect-[3/4] rounded-[5px] overflow-hidden'>
                     <img className={'h-full w-full object-cover drop-shadow-xl'} src={product.img_url} />

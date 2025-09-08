@@ -5,7 +5,7 @@ export default function ProductCard({product, className}){
 
     return(
         <div 
-            onClick={() => navigate(`/products/${product.product_id}`, {
+            onClick={() => navigate(`/products/item/${product.product_id}`, {
                 state: { product: product } //Store value in a state
             })}
             className={`${className} flex flex-col gap-1  rounded-[5px] cursor-pointer 

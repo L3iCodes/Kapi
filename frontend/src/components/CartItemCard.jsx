@@ -10,7 +10,7 @@ export default function CartItemCard({ index, product, onSelect }){
     const {setNotificationMessage} = useNotification()
     const {deleteItemutation, updateItemQtyMutation} = useCart();
     const handleNavigate = () => {
-        navigate(`/products/${product.product_id}`, {
+        navigate(`/products/item/${product.product_id}`, {
         state: { product: product } //Store value in a state
     })}
 

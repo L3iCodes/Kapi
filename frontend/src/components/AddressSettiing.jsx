@@ -81,6 +81,7 @@ export default function AddressSetting(){
                                     type="text" 
                                     className="w-full" 
                                     value={address.value}
+                                    required={address.id === 'house_number' ? false : true}
                                     onChange={(e) => handleAddressChange(address.id, e.target.value)}
                                 />
                             </h5>

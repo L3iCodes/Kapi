@@ -11,7 +11,7 @@ export default function OrderHistory(){
             {/* Order List */}
             <div className="flex flex-col  gap-2 w-full h-full ">
                 <div className="flex items-center gap-2 ">
-                    <h3 className="font-bold">Order History</h3>
+                    <h3 className="font-bold text-accent">Order History</h3>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-2 h-full">
